@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>선생님의 Claude Cowork 활용</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --white:#ffffff;
+  --gray50:#f9f9f8;--gray100:#f1f1ef;--gray200:#e9e9e7;
+  --gray300:#d3d3cf;--gray400:#9b9a97;--gray500:#6b6b6a;
+  --gray700:#37352f;--gray900:#1a1a1a;
+  --accent:#e16b38;--accent-light:#fdf0ea;
+  --green:#0f7b6c;--green-light:#e8f5f3;
+  --blue:#0060b0;--blue-light:#e8f1fa;
+  --purple:#5b4fcf;--purple-light:#eeecf9;
+  --yellow:#977b0a;--yellow-light:#fef9e7;
+  --pink:#9b3a6e;--pink-light:#fce8f3;
+  --mono:'SF Mono','Fira Code','Courier New',monospace;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:#1c1c1c}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-serif}
+
+.deck{position:fixed;inset:0;background:var(--white);overflow:hidden}
+
+/* 프로그레스 */
+.pbar{position:absolute;top:0;left:0;right:0;height:3px;background:var(--gray200);z-index:20}
+.pfill{height:100%;background:var(--accent);transition:width .4s ease}
+
+/* 슬라이드 */
+.sl{
+  display:none;position:absolute;inset:0;
+  padding:72px 120px 88px;
+  flex-direction:column;justify-content:center;
+  animation:fi .28s ease;overflow:hidden;
+}
+.sl.on{display:flex}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* 좌우 분할 */
+.sl.split{flex-direction:row;gap:72px;align-items:center}
+.split-l{flex:1;display:flex;flex-direction:column;justify-content:center}
+.split-r{flex:1.1;display:flex;flex-direction:column;gap:14px;justify-content:center}
+
+/* 네비 */
+.nav{
+  position:absolute;bottom:0;left:0;right:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 52px;height:60px;
+  background:var(--white);border-top:1px solid var(--gray200);z-index:20;
+}
+.nbtn{
+  background:none;border:1.5px solid var(--gray300);border-radius:8px;
+  padding:8px 22px;font-size:14px;cursor:pointer;color:var(--gray700);
+  display:flex;align-items:center;gap:7px;font-family:inherit;font-weight:500;
+  transition:background .15s,border-color .15s;
+}
+.nbtn:hover{background:var(--gray50);border-color:var(--gray400)}
+.nbtn:disabled{opacity:.25;cursor:default}
+.nav-c{display:flex;flex-direction:column;align-items:center;gap:7px}
+.snum{font-size:13px;color:var(--gray400);font-weight:500;letter-spacing:.04em}
+.dots{display:flex;gap:6px;flex-wrap:wrap;max-width:380px;justify-content:center}
+.dots span{width:7px;height:7px;border-radius:50%;background:var(--gray300);cursor:pointer;transition:all .2s}
+.dots span.on{background:var(--accent);transform:scale(1.3)}
+
+/* 태그 */
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:5px 14px;border-radius:6px;margin-bottom:18px;width:fit-content}
+.t-or{background:var(--accent-light);color:var(--accent)}
+.t-gr{background:var(--green-light);color:var(--green)}
+.t-bl{background:var(--blue-light);color:var(--blue)}
+.t-pu{background:var(--purple-light);color:var(--purple)}
+.t-gy{background:var(--gray100);color:var(--gray500)}
+.t-pk{background:var(--pink-light);color:var(--pink)}
+.t-ye{background:var(--yellow-light);color:var(--yellow)}
+
+/* 타이포 */
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.title{font-size:clamp(2.6rem,4.2vw,3.8rem);font-weight:700;line-height:1.1;color:var(--gray900);margin-bottom:16px;letter-spacing:-.025em}
+.h2{font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:700;line-height:1.15;color:var(--gray900);margin-bottom:12px;letter-spacing:-.015em}
+.sub{font-size:clamp(1.05rem,1.7vw,1.25rem);color:var(--gray500);line-height:1.7;margin-bottom:24px;font-weight:400}
+
+/* 카드 */
+.card{background:var(--gray50);border:1.5px solid var(--gray200);border-radius:14px;padding:22px 26px}
+.card+.card{margin-top:12px}
+.ch{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.ctitle{font-size:16px;font-weight:600;color:var(--gray900)}
+.cbody{font-size:15px;color:var(--gray500);line-height:1.7;margin-bottom:12px}
+
+/* 아이콘 */
+.ico{width:36px;height:36px;min-width:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.io{background:var(--accent-light);color:var(--accent)}
+.ig{background:var(--green-light);color:var(--green)}
+.ib{background:var(--blue-light);color:var(--blue)}
+.ip{background:var(--purple-light);color:var(--purple)}
+.iy{background:var(--gray100);color:var(--gray500)}
+.ipk{background:var(--pink-light);color:var(--pink)}
+.iye{background:var(--yellow-light);color:var(--yellow)}
+
+/* 프롬프트 */
+.plabel{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.pwrap{position:relative}
+.prompt{background:#1e1e1e;border-radius:10px;padding:18px 48px 18px 22px;font-size:14px;color:#d4d0c8;line-height:1.85;font-family:var(--mono);white-space:pre-wrap}
+.copybtn{
+  position:absolute;top:10px;right:10px;
+  width:32px;height:32px;border-radius:7px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  color:#d4d0c8;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:15px;transition:all .15s;font-family:inherit;
+}
+.copybtn:hover{background:rgba(255,255,255,.16);color:#fff}
+.copybtn.done{background:var(--green);border-color:var(--green);color:#fff}
+
+/* 그리드 */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+
+/* 체크 리스트 */
+.cklist{list-style:none;display:flex;flex-direction:column;gap:13px}
+.cklist li{display:flex;align-items:flex-start;gap:11px;font-size:15px;color:var(--gray700);line-height:1.5}
+.cdot{width:22px;height:22px;min-width:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;margin-top:2px}
+.cx{background:#fce8e8;color:#c0392b}
+.co{background:var(--green-light);color:var(--green)}
+
+/* 스텝 */
+.steps{display:flex;flex-direction:column;gap:10px}
+.step{display:flex;align-items:flex-start;gap:14px;padding:15px 20px;background:var(--gray50);border:1.5px solid var(--gray200);border-radius:11px}
+.sn{width:28px;height:28px;min-width:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.stxt{font-size:15px;color:var(--gray700);line-height:1.6}
+
+/* 경고/노트 */
+.warn{display:flex;align-items:flex-start;gap:10px;background:#fef9f0;border:1.5px solid #f5d89a;border-radius:10px;padding:13px 17px;font-size:14px;color:#7a5a0a;margin-top:13px;line-height:1.6}
+.note{background:var(--gray50);border:1.5px solid var(--gray200);border-radius:10px;padding:12px 17px;font-size:14px;color:var(--gray500);margin-top:12px;line-height:1.6}
+
+/* 플로우 */
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.fnode{background:var(--gray50);border:1.5px solid var(--gray300);border-radius:8px;padding:7px 18px;font-size:15px;font-weight:500;color:var(--gray700)}
+.farr{font-size:18px;color:var(--gray300)}
+
+/* 기타 */
+code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2px 8px;border-radius:4px;color:var(--gray700)}
+.pill{display:inline-block;font-size:13px;padding:5px 14px;border-radius:20px;border:1.5px solid var(--gray200);color:var(--gray500);background:var(--gray50);margin:3px}
+.pill.h{background:var(--accent-light);border-color:#f5c4a8;color:var(--accent)}
+.divider{height:1.5px;background:var(--gray200);margin:20px 0}
+.bgnum{position:absolute;right:64px;bottom:72px;font-size:170px;font-weight:800;color:var(--gray200);line-height:1;z-index:0;pointer-events:none;letter-spacing:-.04em;user-select:none}
+.sl>*{position:relative;z-index:1}
+.mini{background:var(--white);border:1.5px solid var(--gray200);border-radius:12px;padding:18px;text-align:center}
+.mini .ico{margin:0 auto 10px}
+.mini strong{display:block;font-size:15px;font-weight:600;color:var(--gray900);margin-bottom:4px}
+.mini p{font-size:13px;color:var(--gray400);line-height:1.45}
+
+/* 목차 버튼 */
+.tocbtn{
+  position:absolute;top:18px;right:20px;z-index:30;
+  width:42px;height:42px;border-radius:10px;
+  background:var(--white);border:1.5px solid var(--gray200);
+  color:var(--gray700);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+.tocbtn:hover{background:var(--gray50);border-color:var(--gray400)}
+
+/* 목차 오버레이 */
+.toc{
+  position:fixed;inset:0;z-index:50;
+  background:rgba(26,26,24,.92);backdrop-filter:blur(6px);
+  display:none;flex-direction:column;
+  padding:36px 48px;overflow-y:auto;
+  animation:fadein .2s ease;
+}
+.toc.show{display:flex}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.toc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-shrink:0}
+.toc-title{font-size:20px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.toc-close{
+  width:40px;height:40px;border-radius:10px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;
+  transition:background .15s;
+}
+.toc-close:hover{background:rgba(255,255,255,.2)}
+.toc-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:14px;
+}
+.toc-item{
+  background:var(--white);border:2px solid transparent;border-radius:12px;
+  padding:16px 16px 14px;cursor:pointer;text-align:left;
+  transition:all .15s;position:relative;min-height:108px;
+  display:flex;flex-direction:column;
+}
+.toc-item:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.toc-item.current{border-color:var(--accent)}
+.toc-num{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.05em;margin-bottom:6px}
+.toc-cat{font-size:10px;font-weight:600;color:var(--gray400);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.toc-name{font-size:14px;font-weight:600;color:var(--gray900);line-height:1.35}
+</style>
+</head>
+<body>
+<div class="deck">
+<div class="pbar"><div class="pfill" id="pf" style="width:4.76%"></div></div>
+<button class="tocbtn" onclick="openToc()" aria-label="목차"><i class="ti ti-layout-grid"></i></button>
+
+<!-- 1 커버 -->
+<div class="sl on" id="s1">
+  <div class="bgnum">01</div>
+  <div class="eyebrow">Claude Cowork × 현직 교사</div>
+  <div class="title">선생님의<br>Claude Cowork 활용</div>
+  <div class="sub">실제로 작동하는 것만 담았습니다.<br>프롬프트 그대로 복붙해서 바로 써보세요.</div>
+  <div>
+    <span class="pill h">23개 슬라이드</span>
+    <span class="pill">검증된 기능만</span>
+    <span class="pill">프롬프트 포함</span>
+    <span class="pill">생기부 · 지도안 · 체육</span>
+  </div>
+</div>
+
+<!-- 2 Cowork란 (상세) -->
+<div class="sl" id="s2">
+  <div class="bgnum">02</div>
+  <span class="tag t-gy">개요</span>
+  <div class="h2">Claude Cowork란?</div>
+  <div class="sub" style="margin-bottom:16px">옆자리에 앉아 내 컴퓨터로 직접 일해주는 AI 동료</div>
+  <div class="g2" style="margin-bottom:12px">
+    <div class="card">
+      <div class="ch"><div class="ico ig"><i class="ti ti-folder"></i></div><span class="ctitle">내 PC에서 직접 작업</span></div>
+      <p class="cbody" style="margin:0">바탕화면·문서 폴더의 파일을 직접 읽고, 새 파일을 만들어 저장합니다. 업로드·다운로드가 필요 없습니다.</p>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ico ib"><i class="ti ti-list-check"></i></div><span class="ctitle">여러 단계를 알아서</span></div>
+      <p class="cbody" style="margin:0">"읽고 → 분석하고 → 정리해서 → 저장"을 한 번 시키면 순서대로 끝까지 처리합니다.</p>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ico io"><i class="ti ti-plug"></i></div><span class="ctitle">앱·인터넷과 연결</span></div>
+      <p class="cbody" style="margin:0">구글 드라이브·캘린더·Gmail, 웹 검색까지 연결해 실제 데이터로 작업합니다.</p>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ico ipk"><i class="ti ti-clock-hour-4"></i></div><span class="ctitle">예약 자동 실행</span></div>
+      <p class="cbody" style="margin:0">매일 아침, 매주 월요일처럼 정해진 시간에 같은 작업을 자동 반복할 수 있습니다.</p>
+    </div>
+  </div>
+  <div class="note">📌 Claude Desktop 앱의 별도 탭 &nbsp;·&nbsp; Pro 이상 유료 플랜 &nbsp;·&nbsp; 작동하려면 내 컴퓨터가 켜져 있어야 함</div>
+</div>
+
+<!-- 3 비교 (예시 중심) -->
+<div class="sl" id="s3">
+  <div class="bgnum">03</div>
+  <span class="tag t-or">비교 ①</span>
+  <div class="h2">같은 일을 시켜보면?</div>
+  <div class="sub" style="margin-bottom:16px">"우리 반 학생 30명 생기부 초안 만들어줘"</div>
+  <div class="g2">
+    <div class="card" style="border-left:4px solid var(--gray300)">
+      <div class="ch"><div class="ico iy"><i class="ti ti-message-circle"></i></div><span class="ctitle">Claude 챗 (claude.ai)</span></div>
+      <ul class="cklist" style="gap:9px">
+        <li><span class="cdot cx"><i class="ti ti-x"></i></span>관찰 메모를 일일이 복사해서 붙여넣어야 함</li>
+        <li><span class="cdot cx"><i class="ti ti-x"></i></span>결과 파일을 받으면 내 폴더로 옮겨 저장</li>
+        <li><span class="cdot cx"><i class="ti ti-x"></i></span>학생 30명이면 이 과정을 여러 번 반복</li>
+        <li><span class="cdot cx"><i class="ti ti-x"></i></span>내 PC 폴더에는 직접 접근 못 함</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:4px solid var(--green);border-color:var(--green-light)">
+      <div class="ch"><div class="ico ig"><i class="ti ti-bolt"></i></div><span class="ctitle" style="color:var(--green)">Cowork</span></div>
+      <ul class="cklist" style="gap:9px">
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>"메모 폴더 읽어서 학생별로 만들어줘" 한 번</li>
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>30명 메모를 알아서 읽고 분리</li>
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>학생별 Word 파일 30개 자동 생성·저장</li>
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>그동안 나는 다른 일 하면 됨</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">💡 한 줄 요약: <strong>챗은 "답을 주는 것", 코워크는 "일을 끝내주는 것"</strong></div>
+</div>
+
+<!-- 4 비교 (특성) -->
+<div class="sl split" id="s4">
+  <div class="split-l">
+    <span class="tag t-or">비교 ②</span>
+    <div class="h2">무엇이<br>다른가?</div>
+    <div class="sub">기능 관점에서 본 결정적 차이 4가지</div>
+    <div class="note">✅ Cowork가 읽는 파일 형식<br>.docx .xlsx .pdf(텍스트 기반) .jpg .png .txt<br><br>⚠️ 손글씨·도장 스캔 이미지 내용 인식 불가</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <p style="font-size:12px;font-weight:700;color:var(--gray400);letter-spacing:.07em;text-transform:uppercase;margin-bottom:14px">Claude 챗</p>
+      <ul class="cklist">
+        <li><span class="cdot cx"><i class="ti ti-x"></i></span>내 PC 폴더에 직접 접근 불가 (업로드 필요)</li>
+        <li><span class="cdot cx"><i class="ti ti-x"></i></span>여러 파일을 한 번에 자동 처리 못 함</li>
+        <li><span class="cdot cx"><i class="ti ti-x"></i></span>단계마다 내가 다음 지시를 내려야 함</li>
+        <li><span class="cdot cx"><i class="ti ti-x"></i></span>정해진 시간 자동 반복 불가</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color:var(--green-light)">
+      <p style="font-size:12px;font-weight:700;color:var(--green);letter-spacing:.07em;text-transform:uppercase;margin-bottom:14px">Cowork</p>
+      <ul class="cklist">
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>내 PC 폴더 직접 읽기·쓰기</li>
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>여러 파일·여러 학생 한 번에 처리</li>
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>여러 단계 순서대로 자동 실행</li>
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>정해진 시간 예약 반복 자동화</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 5 언제 무엇을 -->
+<div class="sl split" id="s5">
+  <div class="split-l">
+    <span class="tag t-or">비교 ③</span>
+    <div class="h2">언제<br>무엇을 쓸까?</div>
+    <div class="sub">둘 다 좋은 도구. 상황에 맞게 골라 쓰면 됩니다.</div>
+    <div class="note">💡 가벼운 질문·아이디어는 챗,<br>내 파일을 다루는 실제 업무는 코워크</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico iy"><i class="ti ti-message-circle"></i></div><span class="ctitle">이럴 땐 Claude 챗</span></div>
+      <ul class="cklist" style="gap:9px">
+        <li><span class="cdot" style="background:var(--blue-light);color:var(--blue)"><i class="ti ti-check"></i></span>"체육 수행평가 아이디어 줘" 같은 질문</li>
+        <li><span class="cdot" style="background:var(--blue-light);color:var(--blue)"><i class="ti ti-check"></i></span>문장 다듬기·번역·요약</li>
+        <li><span class="cdot" style="background:var(--blue-light);color:var(--blue)"><i class="ti ti-check"></i></span>파일 없이 빠르게 물어볼 때</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color:var(--green-light)">
+      <div class="ch"><div class="ico ig"><i class="ti ti-bolt"></i></div><span class="ctitle" style="color:var(--green)">이럴 땐 Cowork</span></div>
+      <ul class="cklist" style="gap:9px">
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>엑셀·Word 파일을 읽어서 결과물 만들 때</li>
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>여러 파일·여러 학생을 한 번에 처리</li>
+        <li><span class="cdot co"><i class="ti ti-check"></i></span>매주 반복되는 업무를 자동화할 때</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 7 예약작업 -->
+<div class="sl split" id="s6">
+  <div class="split-l">
+    <span class="tag t-or">핵심 기능 01</span>
+    <div class="h2">예약 작업<br>(Scheduled Tasks)</div>
+    <div class="sub">한 번 설정하면 정해진 시간에 알아서 반복 실행</div>
+    <div class="warn"><i class="ti ti-alert-triangle" style="font-size:16px;margin-top:2px"></i><span>컴퓨터 켜져 있고 <strong>Claude Desktop 실행 중</strong>이어야만 동작.<br>꺼져 있으면 해당 회차는 건너뜁니다.</span></div>
+  </div>
+  <div class="split-r">
+    <div class="steps">
+      <div class="step"><span class="sn">1</span><div class="stxt">Cowork 탭 → <strong>+ New task</strong> → 작업 내용 입력</div></div>
+      <div class="step"><span class="sn">2</span><div class="stxt">입력창 맨 아래 <code>/schedule</code> 입력 → 주기 선택<br><span style="color:var(--gray400);font-size:13px;margin-top:4px;display:block">hourly / daily / weekly / on weekdays / manually</span></div></div>
+      <div class="step"><span class="sn">3</span><div class="stxt"><strong>Schedule</strong> 버튼 클릭 → 등록 완료<br><span style="color:var(--gray400);font-size:13px;margin-top:4px;display:block">사이드바 "Scheduled" 탭에서 목록 관리·삭제</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 8 스킬 -->
+<div class="sl split" id="s7">
+  <div class="split-l">
+    <span class="tag t-gr">핵심 기능 02</span>
+    <div class="h2">스킬(Skills)<br>나만의 방식 저장</div>
+    <div class="sub">반복 설명 없이 내 스타일로 자동 적용</div>
+    <div class="card">
+      <div class="plabel">만드는 법</div>
+      <div class="prompt" style="padding-right:22px">Settings → Skills → + New skill
+이름 + 내 작업 방식/양식/말투 설명 → 저장</div>
+    </div>
+  </div>
+  <div class="split-r">
+    <div class="card" style="border-left:4px solid var(--gray300)">
+      <p style="font-size:14px;font-weight:700;color:var(--gray400);margin-bottom:10px">스킬 없을 때</p>
+      <p style="font-size:15px;color:var(--gray500);line-height:1.65">"나는 체육교사야. 공식 문체로, 표 형식으로, 학교명은 광평중으로..."<br>→ <strong>매번 긴 설명 반복</strong></p>
+    </div>
+    <div class="card" style="border-left:4px solid var(--green);border-color:var(--green-light)">
+      <p style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:10px">스킬 저장 후</p>
+      <p style="font-size:15px;color:var(--gray500);line-height:1.65">"생기부 초안 작성해줘"<br>→ <strong>한 마디로 내 방식 그대로 자동 적용</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- 9 커넥터 -->
+<div class="sl" id="s8">
+  <div class="bgnum">08</div>
+  <span class="tag t-bl">핵심 기능 03</span>
+  <div class="h2">커넥터 연동</div>
+  <div class="sub" style="margin-bottom:22px">Google 앱과 연결하면 인터넷 데이터도 바로 활용</div>
+  <div class="g3" style="margin-bottom:18px">
+    <div class="mini"><div class="ico ig"><i class="ti ti-brand-google-drive"></i></div><strong>Google Drive</strong><p>드라이브 파일 직접 읽기·저장</p></div>
+    <div class="mini"><div class="ico io"><i class="ti ti-mail"></i></div><strong>Gmail</strong><p>받은 메일 읽기·요약</p></div>
+    <div class="mini"><div class="ico ib"><i class="ti ti-calendar"></i></div><strong>Calendar</strong><p>일정 읽어서 작업에 활용</p></div>
+  </div>
+  <div class="card">
+    <div class="plabel">연결 방법</div>
+    <div class="prompt" style="padding-right:22px">Claude Desktop → Settings → Connectors → 앱 선택 → Connect → 구글 로그인
+이후 "내 구글 캘린더에서 이번 주 일정 가져와서..." 처럼 자연스럽게 사용</div>
+  </div>
+</div>
+
+<!-- 10 파일 정리 -->
+<div class="sl split" id="s9">
+  <div class="split-l">
+    <span class="tag t-gy">기본 활용</span>
+    <div class="h2">파일·폴더<br>자동 정리</div>
+    <div class="sub">별도 파일 준비 불필요.<br>이미 있는 폴더 그대로 사용합니다.</div>
+    <div class="note">⚠️ <strong>파일명에 학생 이름이 있어야 합니다</strong><br>스캔본 안의 손글씨·도장 내용을 읽어서 분류하는 건 불가합니다</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico iy"><i class="ti ti-folder-open"></i></div><span class="ctitle">학생별 출결 서류 분류</span></div>
+      <p class="cbody"><code>홍길동_결석계.pdf</code> &nbsp;/&nbsp; <code>이영희_확인서.pdf</code></p>
+      <div class="plabel">Cowork에 직접 입력</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/출결서류 폴더 안 파일들을 정리해줘.
+
+1. 파일명 앞부분(_ 앞)의 학생 이름을 기준으로
+   학생별 하위 폴더를 만들어 파일을 이동
+2. 완료 후 학생명·파일명·파일 수정날짜를
+   '출결목록.xlsx'로 같은 폴더에 저장
+
+먼저 어떻게 정리할지 보여주고 진행해줘.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 생기부01 -->
+<div class="sl" id="s10">
+  <div class="bgnum">10</div>
+  <span class="tag t-pk">생기부 01</span>
+  <div class="h2">관찰 메모 → 교과세특 초안</div>
+  <div class="sub" style="margin-bottom:18px">파일 불필요 — 메모를 직접 붙여넣거나, 기존 파일 경로만 알려주면 됩니다</div>
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><div class="ico ipk"><i class="ti ti-clipboard-text"></i></div><span class="ctitle">방법 ① 직접 붙여넣기</span></div>
+      <p class="cbody">카카오톡 나에게 보내기, 메모앱 내용을 그대로 복붙</p>
+      <div class="plabel">Cowork에 바로 입력</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt" style="font-size:13px">아래 관찰 메모를 학생별 교과세특 문장으로 바꿔줘.
+조건: 공식 문체, 3인칭 서술, 학생당 200~300자,
+      구체적 활동·역량 중심으로
+
+[홍길동] 배드민턴 서브 자세 정확. 팀원에게 동작 설명.
+[이영희] 처음 어려워했으나 3차시 후 개선. 질문 적극적.</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ico ipk"><i class="ti ti-file-text"></i></div><span class="ctitle">방법 ② 기존 파일 활용</span></div>
+      <p class="cbody">파일 안에서 <code>[홍길동]</code>처럼 학생 이름으로 구분되어 있으면 됩니다</p>
+      <div class="plabel">Cowork 입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt" style="font-size:13px">바탕화면/관찰기록.docx 읽어서
+[학생이름]으로 구분된 메모를 학생별 교과세특 초안으로 만들어줘.
+공식 문체, 3인칭, 200~300자.
+학생별 Word 파일로 바탕화면에 따로 저장.
+파일명 형식: 교과세특_[학생이름].docx</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 12 생기부02 -->
+<div class="sl split" id="s11">
+  <div class="split-l">
+    <span class="tag t-pk">생기부 02</span>
+    <div class="h2">창체 기록 →<br>생기부 문장 변환</div>
+    <div class="sub">이미 쓰고 있는 엑셀 파일 그대로 활용합니다</div>
+    <div class="note">💡 열 이름이 달라도 됩니다<br>Cowork에 "A열이 이름, B열이 활동 내용이야"처럼 설명해주면 파악합니다</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico ipk"><i class="ti ti-list-details"></i></div><span class="ctitle">기존 창체 기록 엑셀 그대로 사용</span></div>
+      <p class="cbody">열 구성 예시: 이름 / 활동날짜 / <strong>활동구분(자율·동아리·진로)</strong> / 활동명 / 내용<br>활동구분 열이 없으면 구분 없이 통합 작성됩니다</p>
+      <div class="plabel">Cowork 입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/창체기록.xlsx 읽어서
+학생별 생기부 창의적체험활동 문장을 작성해줘.
+조건: 공식 문체, 3인칭, 항목당 200자 이내
+활동구분 열(자율활동/동아리/진로활동)을 기준으로 구분해서 작성.
+결과를 새 엑셀에 저장.
+열 구성: 이름 / 자율활동문장 / 동아리문장 / 진로활동문장
+기록 없는 항목은 '(기록 없음)'으로 표시.
+파일명: 창체_생기부문장.xlsx</div></div>
+      <div class="note" style="margin-top:8px">💡 "C열이 활동구분이야" 처럼 열 위치를 Cowork에 먼저 알려주면 더 정확합니다</div>
+    </div>
+  </div>
+</div>
+
+<!-- 13 체육01 PAPS -->
+<div class="sl split" id="s12">
+  <div class="split-l">
+    <span class="tag t-or">체육 교사 01</span>
+    <div class="h2">PAPS 결과 →<br>학생별 분석 보고서</div>
+    <div class="sub">PAPS 시스템에서 내려받은 엑셀 파일 그대로 사용합니다</div>
+    <div class="note">💡 1차·2차 측정 결과가 같은 파일에 있어야 변화 분석이 가능합니다<br>열 이름을 Cowork에 알려주면 더 정확하게 처리합니다</div>
+    <div class="note" style="margin-top:8px">⏱️ 학생 수가 많으면 시간이 걸립니다. 그대로 두면 완료됩니다.</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico io"><i class="ti ti-activity"></i></div><span class="ctitle">PAPS 다운로드 파일 그대로 사용</span></div>
+      <p class="cbody">paps.moe.go.kr에서 내려받은 엑셀 파일을 그대로 사용합니다</p>
+      <div class="plabel">Cowork 입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/PAPS결과.xlsx 읽어서
+학생별 체력 변화 분석 보고서를 만들어줘.
+포함: 측정항목별 1차→2차 기록 비교,
+      등급 변화(향상/유지/하락), 강점 체력요소,
+      향후 운동 권고 2가지
+학생별 Word 파일로 바탕화면에 저장.
+파일명 형식: PAPS_[학생이름].docx</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 14 체육02 대회 -->
+<div class="sl split" id="s13">
+  <div class="split-l">
+    <span class="tag t-or">체육 교사 02</span>
+    <div class="h2">대회 기록 →<br>성적 증명 자료</div>
+    <div class="sub">평소 관리하는 대회 기록 엑셀을 그대로 활용합니다</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico io"><i class="ti ti-trophy"></i></div><span class="ctitle">기존 대회 기록 파일 그대로 사용</span></div>
+      <p class="cbody">열 구성 예: 대회명 / 일자 / 종목 / 학생이름 / 학년반 / 기록 / 순위</p>
+      <div class="plabel">Cowork 입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/대회기록.xlsx 읽어서
+학생별 대회 참가 및 성적 증명 자료 Word 파일 만들어줘.
+한 학생이 여러 대회에 나간 경우 한 문서에 모두 묶어서 정리.
+포함: 학생명, 학년반, 학교명(광평중학교),
+      대회명, 일자, 종목, 기록, 순위 — 표 형식.
+바탕화면에 저장. 파일명 형식: 성적증명_[학생이름].docx</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 15 체육03 사진 정리 -->
+<div class="sl split" id="s14">
+  <div class="split-l">
+    <span class="tag t-or">체육 교사 03</span>
+    <div class="h2">수업 사진<br>월별 자동 정리</div>
+    <div class="sub">사진 폴더를 월별로 분류하고 목록 파일을 만들어줍니다</div>
+    <div class="note">📁 파일명에 날짜가 포함되어 있어야 월별로 자동 분류됩니다<br>예: <code style="font-size:12px">20250315_축구수업.jpg</code></div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico io"><i class="ti ti-photo"></i></div><span class="ctitle">한 폴더에 한 학기치 사진을 모아두면 됩니다</span></div>
+      <p class="cbody">사진 수가 많아도 됩니다. Cowork가 날짜 순서대로 알아서 분류합니다.</p>
+      <div class="plabel">Cowork 입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/체육수업사진 폴더를 정리해줘.
+
+1. 파일명 앞 8자리 날짜(YYYYMMDD) 기준으로
+   '2025-03' 같은 월별 하위 폴더를 만들어 사진 이동
+2. 월별 사진 목록(날짜·파일명·월별 장수)을
+   '수업사진목록.xlsx'로 저장
+
+먼저 분류 계획을 보여주고 진행해줘.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 16 지도안01 -->
+<div class="sl split" id="s15">
+  <div class="split-l">
+    <span class="tag t-pu">수업 준비 01</span>
+    <div class="h2">수업 지도안<br>자동 생성 ①</div>
+    <div class="sub">별도 파일 없이 Cowork에 수업 정보를 직접 입력하면 됩니다</div>
+    <div class="flow">
+      <span class="fnode">도입 5분</span><span class="farr">›</span>
+      <span class="fnode">전개 35분</span><span class="farr">›</span>
+      <span class="fnode">정리 5분</span>
+    </div>
+    <p style="font-size:14px;color:var(--gray400);line-height:1.7">각 단계: 교사 활동 / 학생 활동<br>시간 배분 / 지도상 유의점<br>+ 학습목표 / 단원 개관 / 평가계획</p>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico ip"><i class="ti ti-pencil"></i></div><span class="ctitle">수업 정보 직접 입력</span></div>
+      <div class="plabel">Cowork에 바로 입력</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">체육 2학년 3반 28명, 배드민턴 3/8차시
+학습목표: 언더핸드 스트로크 정확히 수행
+성취기준: [9체02-03]
+수업 장소: 체육관, 45분, 초보자 7명 포함
+
+위 내용으로 수업 지도안 Word 파일 만들어줘.
+도입5분/전개35분/정리5분, 교사활동·학생활동·지도유의점 포함.
+바탕화면에 저장. 파일명: 지도안_배드민턴_3차시.docx</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 17 지도안02 -->
+<div class="sl" id="s16">
+  <div class="bgnum">16</div>
+  <span class="tag t-pu">수업 준비 02</span>
+  <div class="h2">수업 지도안 자동 생성 ②</div>
+  <div class="sub" style="margin-bottom:18px">상세 형식 지정 / 기존 지도안 스타일 유지 — 두 가지 방식</div>
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><div class="ico ip"><i class="ti ti-terminal-2"></i></div><span class="ctitle">상세 형식 지정 프롬프트</span></div>
+      <div class="plabel">입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt" style="font-size:13px">체육 2학년 3반, 배드민턴 3/8차시
+45분, 초보자 7명 포함
+
+지도안 형식:
+- 표지: 교과·단원·차시·학교(광평중)·교사명
+- 단원 개관 및 학습목표
+- 교수학습과정안 표
+  (단계/시간/교사활동/학생활동/지도유의점)
+- 도입5분/전개35분/정리5분
+- 평가계획
+
+바탕화면에 저장. 파일명: 지도안_배드민턴_3차시.docx</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ico ip"><i class="ti ti-refresh"></i></div><span class="ctitle">기존 지도안 스타일 유지</span></div>
+      <p class="cbody">이전에 쓴 지도안 파일이 있다면 그 스타일을 유지할 수 있습니다</p>
+      <div class="plabel">입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/지도안모음 폴더의
+기존 지도안들 참고해서
+배드민턴 3/8차시 지도안 만들어줘.
+내가 쓰던 형식과 말투 유지해줘.
+바탕화면에 저장. 파일명: 지도안_배드민턴_3차시.docx</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 18 학부모01 -->
+<div class="sl split" id="s17">
+  <div class="split-l">
+    <span class="tag t-gr">학부모 소통 01</span>
+    <div class="h2">상담 기록 →<br>결과 보고서</div>
+    <div class="sub">메모를 Cowork에 직접 붙여넣기만 하면 됩니다.<br>별도 파일 만들 필요 없습니다.</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico ig"><i class="ti ti-message-2"></i></div><span class="ctitle">카카오톡 메모·메모앱 내용 그대로 복붙</span></div>
+      <div class="plabel">Cowork 입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">아래 상담 메모를 공식 학부모 상담 결과 보고서로 만들어줘.
+항목: 상담일시, 학생명, 참석자,
+      주요 내용, 협의 결과, 후속 조치
+Word 파일로 바탕화면에 저장.
+파일명: 상담결과_홍길동_20250512.docx
+
+---
+2025.05.12 홍길동 어머니 상담
+수업 태도 문제. 체육 시간 참여도 낮음.
+친구 관계 어려움. 가정도 비슷.
+→ 담임과 연계 상담 진행하기로 합의.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 19 학부모02 -->
+<div class="sl split" id="s18">
+  <div class="split-l">
+    <span class="tag t-gr">학부모 소통 02</span>
+    <div class="h2">주간 학급 안내문<br>자동 생성</div>
+    <div class="sub">Google Calendar 연동 후 매주 월요일 자동 생성</div>
+    <div class="steps" style="gap:10px">
+      <div class="step"><span class="sn">1</span><div class="stxt">Settings → Connectors → Google Calendar 연결</div></div>
+      <div class="step"><span class="sn">2</span><div class="stxt">학급 일정을 구글 캘린더에 미리 입력</div></div>
+      <div class="step"><span class="sn">3</span><div class="stxt">아래 입력 후 <code>/schedule</code> → weekly → 월요일</div></div>
+    </div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="plabel">매주 월요일 자동 실행</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">내 구글 캘린더에서 이번 주(월~금) 일정 가져와서
+2학년 3반 학부모 공유용 주간 안내문 만들어줘.
+형식: 이번 주 주요 일정(날짜·내용),
+      준비물 및 유의사항
+친근한 말투, A4 1장 Word 파일로 바탕화면에 저장.
+파일명: 주간안내_[이번주 월요일 날짜 YYYYMMDD].docx</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 20 평가01 -->
+<div class="sl split" id="s19">
+  <div class="split-l">
+    <span class="tag t-bl">평가 업무 01</span>
+    <div class="h2">채점 기록 →<br>학생별 피드백</div>
+    <div class="sub">이미 갖고 있는 채점 엑셀 파일 그대로 활용합니다</div>
+    <div class="note">💡 평가 기준은 파일 따로 안 만들어도 됩니다.<br>프롬프트 안에 직접 써주면 더 정확한 피드백이 나옵니다.</div>
+    <div class="note" style="margin-top:8px">⚠️ 기존 엑셀에 열을 직접 추가하는 방식은 불안정합니다.<br>Word 파일로 출력을 권장합니다.</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico ib"><i class="ti ti-writing"></i></div><span class="ctitle">평가 기준을 프롬프트에 직접 입력</span></div>
+      <div class="plabel">Cowork 입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/수행평가채점.xlsx 읽어서
+학생별 피드백 보고서 만들어줘.
+
+평가 기준:
+- 기능(40점): 언더핸드 스트로크 정확성
+- 태도(30점): 수업 참여도 및 협력
+- 이해(30점): 규칙 및 전술 이해도
+
+각 학생: 항목별 점수, 잘한 점, 보완점, 구체적 조언
+Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.docx</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 21 평가02 -->
+<div class="sl split" id="s20">
+  <div class="split-l">
+    <span class="tag t-bl">평가 업무 02</span>
+    <div class="h2">지필평가<br>문항 분석 보고서</div>
+    <div class="sub">정오답 엑셀 → 문항별 정답률·오답 패턴 분석 보고서</div>
+    <div class="card" style="margin-top:4px">
+      <p style="font-size:14px;font-weight:600;color:var(--gray700);margin-bottom:10px">엑셀 형식</p>
+      <p style="font-size:15px;color:var(--gray500);line-height:1.7">행: 학생 이름&nbsp;&nbsp;열: 문항 번호<br>값: O/X, 1/0, 정/오 등 어떤 형식이든 OK<br>Cowork에 "O가 정답이야" 처럼 알려주면 됩니다</p>
+    </div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico ib"><i class="ti ti-chart-bar"></i></div><span class="ctitle">Cowork 입력 예시</span></div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/지필평가_정오답.xlsx 읽어서
+문항 분석 보고서 Word 파일 만들어줘.
+(O가 정답, X가 오답이야)
+
+포함 내용:
+- 전체 평균·표준편차
+- 문항별 정답률 표 (낮은 순 정렬)
+- 정답률 60% 미만 문항 오답 패턴
+- 교사 참고용 개선 제언
+
+바탕화면에 저장. 파일명: 문항분석_2025_1학기중간.docx</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 22 교육정보 -->
+<div class="sl split" id="s21">
+  <div class="split-l">
+    <span class="tag t-ye">교육 정보 수집</span>
+    <div class="h2">교육 정보<br>자동 브리핑</div>
+    <div class="sub">매일 아침 교육청 공지·연수·대회 정보 자동 요약</div>
+    <div class="note">💡 웹 검색 결과는 사이트 접근 여부에 따라 다를 수 있습니다. 교육청 공식 홈페이지는 잘 읽힙니다.</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico iye"><i class="ti ti-world-search"></i></div><span class="ctitle">매일 아침 — /schedule → daily</span></div>
+      <div class="plabel">Cowork 입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">오늘 날짜 기준으로 아래 내용 웹 검색해서
+바탕화면/오늘브리핑.txt 에 저장해줘.
+
+① 경상북도교육청 최신 공지·공문 (오늘~이번주)
+② 체육 교사 관련 연수·대회·행사 공고
+③ 교육부 주요 정책 뉴스 (있을 경우)
+
+각 항목: 제목 / 핵심 내용 1~2줄 / 마감일 / 출처 링크
+없는 항목은 '해당 없음'으로 표시</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 23 SNS -->
+<div class="sl" id="s22">
+  <div class="bgnum">22</div>
+  <span class="tag t-pk">콘텐츠 작업</span>
+  <div class="h2">SNS 콘텐츠 자동화</div>
+  <div class="sub" style="margin-bottom:18px">만들어둔 자료 폴더를 그대로 SNS 소재로 정리합니다</div>
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><div class="ico ipk"><i class="ti ti-brand-instagram"></i></div><span class="ctitle">수업 자료 → 포스팅 소재 목록</span></div>
+      <div class="plabel">입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/GAS앱 폴더 읽어서
+각 앱의 이름·기능·교사 활용법 정리하고
+인스타그램 포스팅 소재 목록 엑셀로 만들어줘.
+열: 앱명 / 핵심기능 / 포스팅 각도 / 해시태그 5개
+바탕화면에 저장. 파일명: SNS소재목록.xlsx</div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ico ipk"><i class="ti ti-layout-cards"></i></div><span class="ctitle">강의 PPT → 카드뉴스 텍스트 초안</span></div>
+      <p class="cbody">텍스트 위주 슬라이드에서 효과적입니다.<br>이미지·도형만 있는 슬라이드는 내용 추출이 안 됩니다.</p>
+      <div class="plabel">입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/강의자료.pptx 읽어서
+인스타그램 카드뉴스 10장 텍스트 초안 만들어줘.
+1장=제목 / 2~9장=핵심1줄+설명2줄
+10장=마무리+팔로우 유도 문구
+바탕화면/카드뉴스초안.txt 로 저장</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 24 마무리 -->
+<div class="sl" id="s23">
+  <div class="bgnum">23</div>
+  <div style="max-width:700px">
+    <span class="tag t-gr">마무리</span>
+    <div class="title">업무 자동화,<br>이제 선생님<br>차례입니다</div>
+    <div class="sub">✅ 실제로 되는 것만 담았습니다<br>✅ 별도 파일 준비 없이 가진 파일 그대로 사용<br>✅ 프롬프트 그대로 복붙해서 지금 바로 써보세요</div>
+    <div class="divider"></div>
+    <p style="font-size:15px;color:var(--gray400)">by <strong style="color:var(--gray700)">@kimju.zip</strong> &nbsp;·&nbsp; 선생님을 위한 가장 쉬운 바이브코딩</p>
+  </div>
+</div>
+
+<!-- 목차 오버레이 -->
+<div class="toc" id="toc">
+  <div class="toc-head">
+    <span class="toc-title">목차 · 전체 23장</span>
+    <button class="toc-close" onclick="closeToc()" aria-label="닫기"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="toc-grid" id="tocGrid"></div>
+</div>
+
+<!-- Nav -->
+<div class="nav">
+  <button class="nbtn" id="pb" onclick="go(-1)" disabled><i class="ti ti-arrow-left"></i> 이전</button>
+  <div class="nav-c">
+    <span class="snum" id="ct">1 / 23</span>
+    <div class="dots" id="dn"></div>
+  </div>
+  <button class="nbtn" id="nb2" onclick="go(1)">다음 <i class="ti ti-arrow-right"></i></button>
+</div>
+</div>
+
+<script>
+function cp(btn){
+  const txt = btn.parentNode.querySelector('.prompt').innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    btn.classList.add('done');
+    btn.innerHTML='<i class="ti ti-check"></i>';
+    setTimeout(()=>{btn.classList.remove('done');btn.innerHTML='<i class="ti ti-copy"></i>';},1500);
+  }).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);
+    ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    btn.classList.add('done');btn.innerHTML='<i class="ti ti-check"></i>';
+    setTimeout(()=>{btn.classList.remove('done');btn.innerHTML='<i class="ti ti-copy"></i>';},1500);
+  });
+}
+
+// 목차 데이터 (번호, 카테고리, 제목)
+const tocData=[
+  [1,"","표지"],
+  [2,"개요","Claude Cowork란?"],
+  [3,"비교 ①","같은 일을 시켜보면?"],
+  [4,"비교 ②","무엇이 다른가?"],
+  [5,"비교 ③","언제 무엇을 쓸까?"],
+  [6,"핵심 기능 01","예약 작업"],
+  [7,"핵심 기능 02","스킬(Skills)"],
+  [8,"핵심 기능 03","커넥터 연동"],
+  [9,"기본 활용","파일·폴더 자동 정리"],
+  [10,"생기부 01","관찰 메모 → 교과세특"],
+  [11,"생기부 02","창체 기록 변환"],
+  [12,"체육 01","PAPS 분석 보고서"],
+  [13,"체육 02","대회 기록 → 성적 증명"],
+  [14,"체육 03","수업 사진 월별 정리"],
+  [15,"수업 준비 01","수업 지도안 ①"],
+  [16,"수업 준비 02","수업 지도안 ②"],
+  [17,"학부모 01","상담 결과 보고서"],
+  [18,"학부모 02","주간 학급 안내문"],
+  [19,"평가 01","채점 → 학생별 피드백"],
+  [20,"평가 02","지필평가 문항 분석"],
+  [21,"교육 정보","교육 정보 자동 브리핑"],
+  [22,"콘텐츠","SNS 콘텐츠 자동화"],
+  [23,"마무리","이제 선생님 차례입니다"],
+];
+const tocGrid=document.getElementById('tocGrid');
+tocData.forEach(([num,cat,name])=>{
+  const it=document.createElement('div');
+  it.className='toc-item';it.id='toc'+num;
+  it.onclick=()=>{gt(num);closeToc();};
+  it.innerHTML=`<div class="toc-num">${String(num).padStart(2,'0')}</div>`+
+    (cat?`<div class="toc-cat">${cat}</div>`:'')+
+    `<div class="toc-name">${name}</div>`;
+  tocGrid.appendChild(it);
+});
+function openToc(){
+  document.getElementById('toc').classList.add('show');
+  document.querySelectorAll('.toc-item').forEach(el=>el.classList.remove('current'));
+  document.getElementById('toc'+c).classList.add('current');
+}
+function closeToc(){document.getElementById('toc').classList.remove('show');}
+
+let c=1,t=23;
+const dn=document.getElementById('dn');
+for(let i=1;i<=t;i++){
+  const d=document.createElement('span');d.id='d'+i;
+  if(i===1)d.classList.add('on');
+  d.onclick=()=>gt(i);dn.appendChild(d);
+}
+function gt(n){
+  document.getElementById('s'+c).classList.remove('on');
+  document.getElementById('d'+c).classList.remove('on');
+  c=n;
+  document.getElementById('s'+c).classList.add('on');
+  document.getElementById('d'+c).classList.add('on');
+  document.getElementById('ct').textContent=c+' / '+t;
+  document.getElementById('pf').style.width=(c/t*100)+'%';
+  document.getElementById('pb').disabled=c===1;
+  document.getElementById('nb2').disabled=c===t;
+}
+function go(d){if(c+d>=1&&c+d<=t)gt(c+d);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeToc();return;}
+  if(document.getElementById('toc').classList.contains('show'))return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);
+});
+</script>
+</body>
+</html>
