@@ -197,6 +197,17 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 .toc-num{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.05em;margin-bottom:6px}
 .toc-cat{font-size:10px;font-weight:600;color:var(--gray400);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
 .toc-name{font-size:14px;font-weight:600;color:var(--gray900);line-height:1.35}
+
+/* 가이드용 요소 */
+.prep{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:4px}
+.prep li{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:var(--gray700);line-height:1.5}
+.prep .pn{width:20px;height:20px;min-width:20px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px}
+.result{background:#f4faf8;border:1.5px solid #b8e0d6;border-radius:10px;padding:12px 16px;margin-top:10px}
+.result-label{font-size:10px;font-weight:800;color:var(--green);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.result-body{font-size:13px;color:var(--gray700);line-height:1.6}
+.tip{display:flex;align-items:flex-start;gap:8px;background:var(--blue-light);border-radius:10px;padding:11px 15px;font-size:13px;color:var(--blue);margin-top:10px;line-height:1.55}
+.flabel{font-size:11px;font-weight:700;color:var(--gray500);margin-bottom:5px;letter-spacing:.02em}
+.fbox{background:var(--white);border:1.5px dashed var(--gray300);border-radius:8px;padding:10px 14px;font-size:12.5px;color:var(--gray700);font-family:var(--mono);line-height:1.7}
 </style>
 </head>
 <body>
@@ -211,7 +222,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
   <div class="title">선생님의<br>Claude Cowork 활용</div>
   <div class="sub">실제로 작동하는 것만 담았습니다.<br>프롬프트 그대로 복붙해서 바로 써보세요.</div>
   <div>
-    <span class="pill h">23개 슬라이드</span>
+    <span class="pill h">27개 슬라이드</span>
     <span class="pill">검증된 기능만</span>
     <span class="pill">프롬프트 포함</span>
     <span class="pill">생기부 · 지도안 · 체육</span>
@@ -373,26 +384,142 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
   </div>
 </div>
 
-<!-- 9 커넥터 -->
+<!-- 9 커넥터 개요 -->
 <div class="sl" id="s8">
   <div class="bgnum">08</div>
   <span class="tag t-bl">핵심 기능 03</span>
-  <div class="h2">커넥터 연동</div>
-  <div class="sub" style="margin-bottom:22px">Google 앱과 연결하면 인터넷 데이터도 바로 활용</div>
-  <div class="g3" style="margin-bottom:18px">
-    <div class="mini"><div class="ico ig"><i class="ti ti-brand-google-drive"></i></div><strong>Google Drive</strong><p>드라이브 파일 직접 읽기·저장</p></div>
-    <div class="mini"><div class="ico io"><i class="ti ti-mail"></i></div><strong>Gmail</strong><p>받은 메일 읽기·요약</p></div>
-    <div class="mini"><div class="ico ib"><i class="ti ti-calendar"></i></div><strong>Calendar</strong><p>일정 읽어서 작업에 활용</p></div>
+  <div class="h2">커넥터 · 연동이란?</div>
+  <div class="sub" style="margin-bottom:20px">Cowork에 외부 앱을 연결하면, 내 메일·일정·메신저까지 다룰 수 있어요</div>
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card" style="border-left:4px solid var(--blue)">
+      <div class="ch"><div class="ico ib"><i class="ti ti-plug-connected"></i></div><span class="ctitle">기본 커넥터</span></div>
+      <p class="cbody" style="margin:0">Google 드라이브·Gmail·캘린더 등 Claude가 공식 제공. <strong>클릭 몇 번</strong>으로 바로 연결.</p>
+    </div>
+    <div class="card" style="border-left:4px solid var(--purple)">
+      <div class="ch"><div class="ico ip"><i class="ti ti-puzzle"></i></div><span class="ctitle">MCP 서버 (확장)</span></div>
+      <p class="cbody" style="margin:0">카카오톡 등 외부 연동. <strong>Extensions에서 설치</strong>하거나 설정 파일로 추가.</p>
+    </div>
   </div>
-  <div class="card">
-    <div class="plabel">연결 방법</div>
-    <div class="prompt" style="padding-right:22px">Claude Desktop → Settings → Connectors → 앱 선택 → Connect → 구글 로그인
-이후 "내 구글 캘린더에서 이번 주 일정 가져와서..." 처럼 자연스럽게 사용</div>
+  <div class="g3">
+    <div class="mini"><div class="ico ig"><i class="ti ti-brand-google-drive"></i></div><strong>Google Drive</strong><p>파일 직접 읽기·저장</p></div>
+    <div class="mini"><div class="ico io"><i class="ti ti-mail"></i></div><strong>Gmail</strong><p>메일 읽기·초안 작성</p></div>
+    <div class="mini"><div class="ico ib"><i class="ti ti-calendar"></i></div><strong>Calendar</strong><p>일정 읽기·등록</p></div>
+  </div>
+  <div class="note">⚠️ Team·Enterprise 플랜은 관리자가 먼저 커넥터를 켜줘야 개인이 연결할 수 있습니다</div>
+</div>
+
+<!-- 9b 기본 커넥터 연결법 -->
+<div class="sl split" id="s9">
+  <div class="split-l">
+    <span class="tag t-bl">연결 ① 기본 커넥터</span>
+    <div class="h2">Google 앱<br>연결하기</div>
+    <div class="sub">Gmail · 캘린더 · 드라이브 — 클릭만으로 연결</div>
+    <div class="note">⚠️ Gmail은 <strong>메일 초안 작성·읽기</strong>까지만 됩니다.<br>대신 보내주는 기능(자동 발송)은 안전상 막혀 있어요.</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico ib"><i class="ti ti-click"></i></div><span class="ctitle">연결 5단계</span></div>
+      <div class="steps" style="margin-top:4px">
+        <div class="step"><span class="sn">1</span><div class="stxt">Claude Desktop에서 채팅창 <strong>+ 버튼</strong>(또는 <code>/</code>) 클릭</div></div>
+        <div class="step"><span class="sn">2</span><div class="stxt"><strong>Connectors</strong> → <strong>Manage connectors</strong> 선택</div></div>
+        <div class="step"><span class="sn">3</span><div class="stxt">Gmail / Google Calendar / Drive 중 선택</div></div>
+        <div class="step"><span class="sn">4</span><div class="stxt"><strong>Connect</strong> 클릭 → 구글 로그인 → 권한 허용</div></div>
+        <div class="step"><span class="sn">5</span><div class="stxt">완료! "내 캘린더에서..." 처럼 바로 사용</div></div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- 10 파일 정리 -->
-<div class="sl split" id="s9">
+<!-- 9c MCP 카카오톡 등록법 -->
+<div class="sl split" id="s10">
+  <div class="split-l">
+    <span class="tag t-pu">연결 ② MCP 서버</span>
+    <div class="h2">카카오톡 등<br>MCP 등록하기</div>
+    <div class="sub">Claude 기본 목록에 없는 앱은 MCP 서버로 추가합니다</div>
+    <div class="note">💡 카카오톡 '나에게 보내기'는 <strong>PlayMCP</strong> 같은<br>카카오 연동 MCP를 등록하면 사용할 수 있어요</div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico ig"><i class="ti ti-download"></i></div><span class="ctitle">쉬운 방법 — Extensions</span></div>
+      <div class="steps" style="margin-top:4px">
+        <div class="step"><span class="sn">1</span><div class="stxt">채팅창 <strong>+ 버튼</strong> → <strong>Extensions</strong> 또는 <strong>Connectors</strong></div></div>
+        <div class="step"><span class="sn">2</span><div class="stxt">원하는 MCP 검색 → <strong>설치(Install)</strong> 클릭</div></div>
+        <div class="step"><span class="sn">3</span><div class="stxt">로그인·권한 허용 후 바로 사용</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><div class="ico ip"><i class="ti ti-code"></i></div><span class="ctitle">직접 추가 — 설정 파일</span></div>
+      <p class="cbody" style="margin:0">Settings → <strong>Developer</strong> → <strong>Edit Config</strong> → <code>claude_desktop_config.json</code> 파일에 서버 정보 입력 후 Claude 재시작</p>
+    </div>
+  </div>
+</div>
+
+<!-- 9 카카오톡 나챗방 -->
+<div class="sl split" id="s11">
+  <div class="split-l">
+    <span class="tag t-ye">꿀활용 01</span>
+    <div class="h2">카카오톡<br>나에게 보내기</div>
+    <div class="sub">작업 결과·알림을 내 카톡 '나와의 채팅'으로 바로 전송</div>
+    <div class="flabel" style="margin-top:6px">먼저 준비하세요</div>
+    <ul class="prep">
+      <li><span class="pn">1</span>카카오 연동 MCP 등록 (8~10p 참고)</li>
+      <li><span class="pn">2</span>구글 캘린더 커넥터 연결</li>
+      <li><span class="pn">3</span>아래 프롬프트 입력 후 <code>/schedule</code>로 매일 아침 예약</li>
+    </ul>
+    <div class="tip"><i class="ti ti-bulb" style="font-size:15px;margin-top:1px"></i><span>예약 작업과 함께 쓰면 PC 앞에 없어도 매일 아침 일정이 카톡으로 와요</span></div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico iye"><i class="ti ti-message-2"></i></div><span class="ctitle">오늘 일정·할 일 카톡 요약</span></div>
+      <div class="plabel">Cowork 입력 (매일 아침 예약)</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">내 구글 캘린더에서 오늘 일정 확인해서
+오늘 할 일·수업·회의를 시간순으로 정리하고
+카카오톡 나에게 보내기로 전송해줘.
+각 줄 앞에 시간과 이모지를 붙여서 간단하게.</div></div>
+      <div class="result">
+        <div class="result-label"><i class="ti ti-brand-hipchat"></i>카톡으로 오는 결과</div>
+        <div class="result-body">📅 오늘 일정<br>⏰ 09:00 1학년 3반 체육<br>⏰ 11:00 교과협의회<br>⏰ 14:00 PAPS 측정</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 12 구글 캘린더 자동 등록 -->
+<div class="sl split" id="s12">
+  <div class="split-l">
+    <span class="tag t-bl">꿀활용 02</span>
+    <div class="h2">구글 캘린더<br>일정 자동 등록</div>
+    <div class="sub">학사일정·시험일정을 하나하나 입력 말고 한 번에 자동 등록</div>
+    <div class="flabel" style="margin-top:6px">먼저 준비하세요</div>
+    <ul class="prep">
+      <li><span class="pn">1</span>Google Calendar 커넥터 연결 (9p 참고)</li>
+      <li><span class="pn">2</span>학사일정표 텍스트나 엑셀 파일 준비</li>
+      <li><span class="pn">3</span>아래 프롬프트에 일정 붙여넣고 실행</li>
+    </ul>
+    <div class="tip"><i class="ti ti-bulb" style="font-size:15px;margin-top:1px"></i><span>"등록 전에 목록 먼저 보여줘"를 넣으면 잘못 등록되는 걸 막을 수 있어요</span></div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico ib"><i class="ti ti-calendar-plus"></i></div><span class="ctitle">학사일정 한 번에 등록</span></div>
+      <div class="plabel">Cowork 입력 예시</div>
+      <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">아래 학사일정을 내 구글 캘린더에 등록해줘.
+종일 일정으로, 제목 앞에 [학사] 붙여서.
+등록 전에 어떤 일정 넣을지 목록 먼저 보여줘.
+
+3/2 입학식
+4/28~5/2 중간고사
+5/15 스승의날 재량휴업
+7/18 여름방학식</div></div>
+      <div class="result">
+        <div class="result-label"><i class="ti ti-calendar-check"></i>등록되는 일정</div>
+        <div class="result-body">[학사] 입학식 · 3/2<br>[학사] 중간고사 · 4/28~5/2<br>[학사] 스승의날 재량휴업 · 5/15<br>[학사] 여름방학식 · 7/18</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 파일 정리 -->
+<div class="sl split" id="s13">
   <div class="split-l">
     <span class="tag t-gy">기본 활용</span>
     <div class="h2">파일·폴더<br>자동 정리</div>
@@ -417,8 +544,8 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 </div>
 
 <!-- 11 생기부01 -->
-<div class="sl" id="s10">
-  <div class="bgnum">10</div>
+<div class="sl" id="s14">
+  <div class="bgnum">14</div>
   <span class="tag t-pk">생기부 01</span>
   <div class="h2">관찰 메모 → 교과세특 초안</div>
   <div class="sub" style="margin-bottom:18px">파일 불필요 — 메모를 직접 붙여넣거나, 기존 파일 경로만 알려주면 됩니다</div>
@@ -433,6 +560,10 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 
 [홍길동] 배드민턴 서브 자세 정확. 팀원에게 동작 설명.
 [이영희] 처음 어려워했으나 3차시 후 개선. 질문 적극적.</div></div>
+      <div class="result" style="margin-top:8px">
+        <div class="result-label"><i class="ti ti-wand"></i>변환 결과 (예시)</div>
+        <div class="result-body" style="font-size:12px">"배드민턴 서브 동작의 정확성이 우수하며, 팀원에게 자세를 시범 보이고 설명하는 등 협력적 리더십을 발휘함…"</div>
+      </div>
     </div>
     <div class="card">
       <div class="ch"><div class="ico ipk"><i class="ti ti-file-text"></i></div><span class="ctitle">방법 ② 기존 파일 활용</span></div>
@@ -448,7 +579,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 </div>
 
 <!-- 12 생기부02 -->
-<div class="sl split" id="s11">
+<div class="sl split" id="s15">
   <div class="split-l">
     <span class="tag t-pk">생기부 02</span>
     <div class="h2">창체 기록 →<br>생기부 문장 변환</div>
@@ -474,18 +605,21 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 </div>
 
 <!-- 13 체육01 PAPS -->
-<div class="sl split" id="s12">
+<div class="sl split" id="s16">
   <div class="split-l">
     <span class="tag t-or">체육 교사 01</span>
     <div class="h2">PAPS 결과 →<br>학생별 분석 보고서</div>
-    <div class="sub">PAPS 시스템에서 내려받은 엑셀 파일 그대로 사용합니다</div>
-    <div class="note">💡 1차·2차 측정 결과가 같은 파일에 있어야 변화 분석이 가능합니다<br>열 이름을 Cowork에 알려주면 더 정확하게 처리합니다</div>
-    <div class="note" style="margin-top:8px">⏱️ 학생 수가 많으면 시간이 걸립니다. 그대로 두면 완료됩니다.</div>
+    <div class="sub">paps.moe.go.kr에서 받은 엑셀로 개인별 체력 보고서 자동 생성</div>
+    <div class="flabel" style="margin-top:6px">먼저 준비하세요</div>
+    <ul class="prep">
+      <li><span class="pn">1</span>PAPS 시스템에서 측정 결과 엑셀 다운로드</li>
+      <li><span class="pn">2</span>1차·2차 측정이 <strong>같은 파일</strong>에 있는지 확인</li>
+      <li><span class="pn">3</span>바탕화면에 두고 아래 프롬프트 실행</li>
+    </ul>
+    <div class="tip"><i class="ti ti-clock" style="font-size:15px;margin-top:1px"></i><span>학생 수가 많으면 시간이 걸려요. 자리 비워도 알아서 끝까지 만듭니다</span></div>
   </div>
   <div class="split-r">
     <div class="card">
-      <div class="ch"><div class="ico io"><i class="ti ti-activity"></i></div><span class="ctitle">PAPS 다운로드 파일 그대로 사용</span></div>
-      <p class="cbody">paps.moe.go.kr에서 내려받은 엑셀 파일을 그대로 사용합니다</p>
       <div class="plabel">Cowork 입력 예시</div>
       <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/PAPS결과.xlsx 읽어서
 학생별 체력 변화 분석 보고서를 만들어줘.
@@ -494,21 +628,30 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
       향후 운동 권고 2가지
 학생별 Word 파일로 바탕화면에 저장.
 파일명 형식: PAPS_[학생이름].docx</div></div>
+      <div class="result">
+        <div class="result-label"><i class="ti ti-file-text"></i>만들어지는 보고서 (PAPS_홍길동.docx)</div>
+        <div class="result-body">왕복오래달리기 45회 → 52회 (3등급→2등급, 향상)<br>앉아윗몸앞으로굽히기 8cm → 11cm (향상)<br>강점: 심폐지구력 · 권고: 유연성 스트레칭 강화</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- 14 체육02 대회 -->
-<div class="sl split" id="s13">
+<!-- 17 체육02 대회 -->
+<div class="sl split" id="s17">
   <div class="split-l">
     <span class="tag t-or">체육 교사 02</span>
     <div class="h2">대회 기록 →<br>성적 증명 자료</div>
-    <div class="sub">평소 관리하는 대회 기록 엑셀을 그대로 활용합니다</div>
+    <div class="sub">엑셀 대회 기록을 학생별 공식 증명서로 자동 변환</div>
+    <div class="flabel" style="margin-top:6px">먼저 준비하세요</div>
+    <ul class="prep">
+      <li><span class="pn">1</span>대회 기록을 엑셀로 정리 (한 행에 한 기록)</li>
+      <li><span class="pn">2</span>열: 대회명·일자·종목·학생이름·학년반·기록·순위</li>
+      <li><span class="pn">3</span>바탕화면에 두고 아래 프롬프트 실행</li>
+    </ul>
+    <div class="tip"><i class="ti ti-bulb" style="font-size:15px;margin-top:1px"></i><span>한 학생이 여러 대회에 나갔어도 한 문서로 깔끔하게 묶어줘요</span></div>
   </div>
   <div class="split-r">
     <div class="card">
-      <div class="ch"><div class="ico io"><i class="ti ti-trophy"></i></div><span class="ctitle">기존 대회 기록 파일 그대로 사용</span></div>
-      <p class="cbody">열 구성 예: 대회명 / 일자 / 종목 / 학생이름 / 학년반 / 기록 / 순위</p>
       <div class="plabel">Cowork 입력 예시</div>
       <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">바탕화면/대회기록.xlsx 읽어서
 학생별 대회 참가 및 성적 증명 자료 Word 파일 만들어줘.
@@ -516,12 +659,16 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 포함: 학생명, 학년반, 학교명(광평중학교),
       대회명, 일자, 종목, 기록, 순위 — 표 형식.
 바탕화면에 저장. 파일명 형식: 성적증명_[학생이름].docx</div></div>
+      <div class="result">
+        <div class="result-label"><i class="ti ti-certificate"></i>만들어지는 증명서 (성적증명_홍길동.docx)</div>
+        <div class="result-body" style="font-size:12px">광평중학교 2-3 홍길동<br>춘계육상 100m 12.5초 2위 (2025.04.10)<br>교육감배 200m 26.1초 3위 (2025.05.20)</div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- 15 체육03 사진 정리 -->
-<div class="sl split" id="s14">
+<div class="sl split" id="s18">
   <div class="split-l">
     <span class="tag t-or">체육 교사 03</span>
     <div class="h2">수업 사진<br>월별 자동 정리</div>
@@ -546,7 +693,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 </div>
 
 <!-- 16 지도안01 -->
-<div class="sl split" id="s15">
+<div class="sl split" id="s19">
   <div class="split-l">
     <span class="tag t-pu">수업 준비 01</span>
     <div class="h2">수업 지도안<br>자동 생성 ①</div>
@@ -575,8 +722,8 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 </div>
 
 <!-- 17 지도안02 -->
-<div class="sl" id="s16">
-  <div class="bgnum">16</div>
+<div class="sl" id="s20">
+  <div class="bgnum">20</div>
   <span class="tag t-pu">수업 준비 02</span>
   <div class="h2">수업 지도안 자동 생성 ②</div>
   <div class="sub" style="margin-bottom:18px">상세 형식 지정 / 기존 지도안 스타일 유지 — 두 가지 방식</div>
@@ -610,16 +757,22 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
   </div>
 </div>
 
-<!-- 18 학부모01 -->
-<div class="sl split" id="s17">
+<!-- 21 학부모01 -->
+<div class="sl split" id="s21">
   <div class="split-l">
     <span class="tag t-gr">학부모 소통 01</span>
     <div class="h2">상담 기록 →<br>결과 보고서</div>
-    <div class="sub">메모를 Cowork에 직접 붙여넣기만 하면 됩니다.<br>별도 파일 만들 필요 없습니다.</div>
+    <div class="sub">대충 적은 메모를 공식 양식 보고서로 자동 변환</div>
+    <div class="flabel" style="margin-top:6px">이렇게 쓰세요</div>
+    <ul class="prep">
+      <li><span class="pn">1</span>상담 중·후에 메모앱이나 카톡에 자유롭게 기록</li>
+      <li><span class="pn">2</span>날짜·학생명·내용·합의사항만 들어가면 OK</li>
+      <li><span class="pn">3</span>그 메모를 통째로 프롬프트에 붙여넣기</li>
+    </ul>
+    <div class="tip"><i class="ti ti-bulb" style="font-size:15px;margin-top:1px"></i><span>문장이 엉성해도 됩니다. Cowork가 공식 문체로 다듬어줘요</span></div>
   </div>
   <div class="split-r">
     <div class="card">
-      <div class="ch"><div class="ico ig"><i class="ti ti-message-2"></i></div><span class="ctitle">카카오톡 메모·메모앱 내용 그대로 복붙</span></div>
       <div class="plabel">Cowork 입력 예시</div>
       <div class="pwrap"><button class="copybtn" onclick="cp(this)" aria-label="복사"><i class="ti ti-copy"></i></button><div class="prompt">아래 상담 메모를 공식 학부모 상담 결과 보고서로 만들어줘.
 항목: 상담일시, 학생명, 참석자,
@@ -632,12 +785,16 @@ Word 파일로 바탕화면에 저장.
 수업 태도 문제. 체육 시간 참여도 낮음.
 친구 관계 어려움. 가정도 비슷.
 → 담임과 연계 상담 진행하기로 합의.</div></div>
+      <div class="result">
+        <div class="result-label"><i class="ti ti-file-check"></i>만들어지는 보고서</div>
+        <div class="result-body" style="font-size:12px">상담일시: 2025.05.12 / 학생명: 홍길동<br>주요 내용: 체육 수업 참여도 저하 및 교우관계 어려움…<br>후속 조치: 담임교사 연계 상담 진행 예정</div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- 19 학부모02 -->
-<div class="sl split" id="s18">
+<div class="sl split" id="s22">
   <div class="split-l">
     <span class="tag t-gr">학부모 소통 02</span>
     <div class="h2">주간 학급 안내문<br>자동 생성</div>
@@ -662,7 +819,7 @@ Word 파일로 바탕화면에 저장.
 </div>
 
 <!-- 20 평가01 -->
-<div class="sl split" id="s19">
+<div class="sl split" id="s23">
   <div class="split-l">
     <span class="tag t-bl">평가 업무 01</span>
     <div class="h2">채점 기록 →<br>학생별 피드백</div>
@@ -684,12 +841,16 @@ Word 파일로 바탕화면에 저장.
 
 각 학생: 항목별 점수, 잘한 점, 보완점, 구체적 조언
 Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.docx</div></div>
+      <div class="result">
+        <div class="result-label"><i class="ti ti-message-dots"></i>학생별 피드백 (예시)</div>
+        <div class="result-body" style="font-size:12px">홍길동 (88점) — 잘한 점: 스트로크 정확성 우수<br>보완점: 전술 이해 부족 / 조언: 경기 규칙 복습 권장</div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- 21 평가02 -->
-<div class="sl split" id="s20">
+<div class="sl split" id="s24">
   <div class="split-l">
     <span class="tag t-bl">평가 업무 02</span>
     <div class="h2">지필평가<br>문항 분석 보고서</div>
@@ -713,12 +874,16 @@ Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.doc
 - 교사 참고용 개선 제언
 
 바탕화면에 저장. 파일명: 문항분석_2025_1학기중간.docx</div></div>
+      <div class="result">
+        <div class="result-label"><i class="ti ti-chart-dots"></i>분석 결과 (예시)</div>
+        <div class="result-body" style="font-size:12px">전체 평균 78.3점 (표준편차 12.4)<br>정답률 최저: 7번 32% · 11번 45%<br>→ 7번 오답 집중: 전술 개념 보충 지도 필요</div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- 22 교육정보 -->
-<div class="sl split" id="s21">
+<div class="sl split" id="s25">
   <div class="split-l">
     <span class="tag t-ye">교육 정보 수집</span>
     <div class="h2">교육 정보<br>자동 브리핑</div>
@@ -743,8 +908,8 @@ Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.doc
 </div>
 
 <!-- 23 SNS -->
-<div class="sl" id="s22">
-  <div class="bgnum">22</div>
+<div class="sl" id="s26">
+  <div class="bgnum">26</div>
   <span class="tag t-pk">콘텐츠 작업</span>
   <div class="h2">SNS 콘텐츠 자동화</div>
   <div class="sub" style="margin-bottom:18px">만들어둔 자료 폴더를 그대로 SNS 소재로 정리합니다</div>
@@ -772,8 +937,8 @@ Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.doc
 </div>
 
 <!-- 24 마무리 -->
-<div class="sl" id="s23">
-  <div class="bgnum">23</div>
+<div class="sl" id="s27">
+  <div class="bgnum">27</div>
   <div style="max-width:700px">
     <span class="tag t-gr">마무리</span>
     <div class="title">업무 자동화,<br>이제 선생님<br>차례입니다</div>
@@ -786,7 +951,7 @@ Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.doc
 <!-- 목차 오버레이 -->
 <div class="toc" id="toc">
   <div class="toc-head">
-    <span class="toc-title">목차 · 전체 23장</span>
+    <span class="toc-title">목차 · 전체 27장</span>
     <button class="toc-close" onclick="closeToc()" aria-label="닫기"><i class="ti ti-x"></i></button>
   </div>
   <div class="toc-grid" id="tocGrid"></div>
@@ -796,7 +961,7 @@ Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.doc
 <div class="nav">
   <button class="nbtn" id="pb" onclick="go(-1)" disabled><i class="ti ti-arrow-left"></i> 이전</button>
   <div class="nav-c">
-    <span class="snum" id="ct">1 / 23</span>
+    <span class="snum" id="ct">1 / 27</span>
     <div class="dots" id="dn"></div>
   </div>
   <button class="nbtn" id="nb2" onclick="go(1)">다음 <i class="ti ti-arrow-right"></i></button>
@@ -827,22 +992,26 @@ const tocData=[
   [5,"비교 ③","언제 무엇을 쓸까?"],
   [6,"핵심 기능 01","예약 작업"],
   [7,"핵심 기능 02","스킬(Skills)"],
-  [8,"핵심 기능 03","커넥터 연동"],
-  [9,"기본 활용","파일·폴더 자동 정리"],
-  [10,"생기부 01","관찰 메모 → 교과세특"],
-  [11,"생기부 02","창체 기록 변환"],
-  [12,"체육 01","PAPS 분석 보고서"],
-  [13,"체육 02","대회 기록 → 성적 증명"],
-  [14,"체육 03","수업 사진 월별 정리"],
-  [15,"수업 준비 01","수업 지도안 ①"],
-  [16,"수업 준비 02","수업 지도안 ②"],
-  [17,"학부모 01","상담 결과 보고서"],
-  [18,"학부모 02","주간 학급 안내문"],
-  [19,"평가 01","채점 → 학생별 피드백"],
-  [20,"평가 02","지필평가 문항 분석"],
-  [21,"교육 정보","교육 정보 자동 브리핑"],
-  [22,"콘텐츠","SNS 콘텐츠 자동화"],
-  [23,"마무리","이제 선생님 차례입니다"],
+  [8,"핵심 기능 03","커넥터 연동이란?"],
+  [9,"연결 ①","Google 앱 연결"],
+  [10,"연결 ②","MCP·카카오톡 등록"],
+  [11,"꿀활용 01","카카오톡 나에게 보내기"],
+  [12,"꿀활용 02","구글 캘린더 자동 등록"],
+  [13,"기본 활용","파일·폴더 자동 정리"],
+  [14,"생기부 01","관찰 메모 → 교과세특"],
+  [15,"생기부 02","창체 기록 변환"],
+  [16,"체육 01","PAPS 분석 보고서"],
+  [17,"체육 02","대회 기록 → 성적 증명"],
+  [18,"체육 03","수업 사진 월별 정리"],
+  [19,"수업 준비 01","수업 지도안 ①"],
+  [20,"수업 준비 02","수업 지도안 ②"],
+  [21,"학부모 01","상담 결과 보고서"],
+  [22,"학부모 02","주간 학급 안내문"],
+  [23,"평가 01","채점 → 학생별 피드백"],
+  [24,"평가 02","지필평가 문항 분석"],
+  [25,"교육 정보","교육 정보 자동 브리핑"],
+  [26,"콘텐츠","SNS 콘텐츠 자동화"],
+  [27,"마무리","이제 선생님 차례입니다"],
 ];
 const tocGrid=document.getElementById('tocGrid');
 tocData.forEach(([num,cat,name])=>{
@@ -861,7 +1030,7 @@ function openToc(){
 }
 function closeToc(){document.getElementById('toc').classList.remove('show');}
 
-let c=1,t=23;
+let c=1,t=27;
 const dn=document.getElementById('dn');
 for(let i=1;i<=t;i++){
   const d=document.createElement('span');d.id='d'+i;
