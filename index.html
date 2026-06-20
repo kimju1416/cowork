@@ -167,6 +167,21 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 }
 .tocbtn:hover{background:var(--gray50);border-color:var(--gray400)}
 
+/* 좌우 가운데 네비 화살표 */
+.side-nav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:25;
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(255,255,255,.85);border:1.5px solid var(--gray200);
+  color:var(--gray700);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+  transition:all .18s;box-shadow:0 2px 12px rgba(0,0,0,.1);backdrop-filter:blur(4px);
+}
+.side-nav:hover{background:var(--accent);border-color:var(--accent);color:#fff;transform:translateY(-50%) scale(1.08)}
+.side-nav:disabled{opacity:0;pointer-events:none}
+.side-prev{left:24px}
+.side-next{right:24px}
+@media(max-width:600px){.side-nav{width:42px;height:42px;font-size:20px}.side-prev{left:10px}.side-next{right:10px}}
+
 /* 목차 오버레이 */
 .toc{
   position:fixed;inset:0;z-index:50;
@@ -270,6 +285,8 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 <div class="deck">
 <div class="pbar"><div class="pfill" id="pf" style="width:4.76%"></div></div>
 <button class="tocbtn" onclick="openToc()" aria-label="목차"><i class="ti ti-layout-grid"></i></button>
+<button class="side-nav side-prev" id="sidePrev" onclick="go(-1)" aria-label="이전"><i class="ti ti-chevron-left"></i></button>
+<button class="side-nav side-next" id="sideNext" onclick="go(1)" aria-label="다음"><i class="ti ti-chevron-right"></i></button>
 
 <!-- 1 커버 -->
 <div class="sl on" id="s1">
@@ -1197,6 +1214,8 @@ for(let i=1;i<=t;i++){
 for(let i=2;i<=t;i++){
   document.getElementById('s'+i).classList.add('next');
 }
+// 초기 좌우 화살표 상태 (1페이지: 이전 숨김)
+document.getElementById('sidePrev').disabled=true;
 function gt(n){
   document.getElementById('d'+c).classList.remove('on');
   c=n;
@@ -1213,8 +1232,21 @@ function gt(n){
   document.getElementById('pf').style.width=(c/t*100)+'%';
   document.getElementById('pb').disabled=c===1;
   document.getElementById('nb2').disabled=c===t;
+  document.getElementById('sidePrev').disabled=c===1;
+  document.getElementById('sideNext').disabled=c===t;
 }
 function go(d){if(c+d>=1&&c+d<=t)gt(c+d);}
+
+// 슬라이드 아무 곳이나 클릭하면 다음으로 (버튼·링크·복사·목차 등은 제외)
+document.querySelectorAll('.sl').forEach(sl=>{
+  sl.addEventListener('click',e=>{
+    // 인터랙티브 요소 클릭이면 무시
+    if(e.target.closest('button, a, .copybtn, .toc, input, textarea, .prompt')) return;
+    // 텍스트를 드래그 선택한 경우면 무시
+    if(window.getSelection && window.getSelection().toString().length>0) return;
+    go(1);
+  });
+});
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){closeToc();return;}
   if(document.getElementById('toc').classList.contains('show'))return;
