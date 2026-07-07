@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>선생님의 Claude Cowork 활용</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -86,6 +86,18 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-se
 .title{font-size:clamp(2.6rem,4.2vw,3.8rem);font-weight:700;line-height:1.1;color:var(--gray900);margin-bottom:16px;letter-spacing:-.025em}
 .h2{font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:700;line-height:1.15;color:var(--gray900);margin-bottom:12px;letter-spacing:-.015em}
 .sub{font-size:clamp(1.05rem,1.7vw,1.25rem);color:var(--gray500);line-height:1.7;margin-bottom:24px;font-weight:400}
+
+/* ===== 전체화면 버튼 ===== */
+.fsbtn{
+  position:absolute;top:18px;right:70px;z-index:30;
+  width:42px;height:42px;border-radius:10px;
+  background:var(--white);border:1.5px solid var(--gray200);
+  color:var(--gray700);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:19px;
+  transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+.fsbtn:hover{background:var(--gray50);border-color:var(--gray400)}
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
 
 /* 카드 */
 .card{background:var(--gray50);border:1.5px solid var(--gray200);border-radius:14px;padding:22px 26px}
@@ -279,12 +291,71 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 .cmp2 .ico-y{color:var(--green)}
 .cmp2 .ico-n{color:#c0392b}
 .cmp2 .ico-m{color:var(--yellow)}
+
+/* ===== 모바일 최적화 ===== */
+@media(max-width:768px){
+  .sl{padding:74px 16px 72px;overflow-y:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start}
+  .sl.split{flex-direction:column;gap:18px}
+  .split-l,.split-r{flex:none;width:100%;justify-content:flex-start}
+  .title{font-size:28px;margin-bottom:10px}
+  .h2{font-size:22px;margin-bottom:8px}
+  .sub{font-size:13.5px;line-height:1.6;margin-bottom:16px}
+  .eyebrow{font-size:11px;margin-bottom:10px}
+  .tag{font-size:10.5px;padding:4px 11px;margin-bottom:12px}
+  .g2,.g3{grid-template-columns:1fr;gap:10px}
+  .card{padding:15px 16px}
+  .card+.card{margin-top:10px}
+  .ctitle{font-size:14px}
+  .cbody{font-size:13px}
+  .ico{width:30px;height:30px;min-width:30px;font-size:15px}
+  .plabel{font-size:10px}
+  .prompt{font-size:12px;padding:14px 40px 14px 15px;line-height:1.7}
+  .copybtn{width:28px;height:28px;font-size:13px;top:8px;right:8px}
+  .evo-big{flex-direction:column;gap:14px}
+  .evo-bigarrow{transform:rotate(90deg);justify-content:center;padding:2px 0}
+  .evo-card{padding:16px 15px}
+  .evo-card h3{font-size:16px}
+  .steps{gap:8px}
+  .step{padding:11px 13px;gap:10px}
+  .sn{width:24px;height:24px;min-width:24px;font-size:11px}
+  .stxt{font-size:13.5px}
+  .cmp,.cmp2{font-size:11.5px;min-width:520px}
+  .cmp2 td:first-child,.cmp2 th:first-child{width:76px;font-size:11px}
+  .cmp2 th,.cmp2 td{padding:9px 10px}
+  .warn,.note{font-size:12px;padding:10px 13px}
+  .prep li{font-size:12px}
+  .tip{font-size:12px;padding:9px 12px}
+  .result{padding:10px 13px}
+  .result-body{font-size:11.5px}
+  .flabel{font-size:10px}
+  .fbox{font-size:11px;padding:8px 11px}
+  .mini{padding:13px}
+  .mini strong{font-size:13px}
+  .mini p{font-size:11.5px}
+  .flow{gap:6px;flex-wrap:wrap}
+  .fnode{padding:6px 12px;font-size:12.5px}
+  .nav{padding:0 12px;height:52px}
+  .nbtn{padding:6px 11px;font-size:12px;gap:4px}
+  .snum{font-size:10.5px}
+  .dots{max-width:180px;gap:4px}
+  .dots span{width:6px;height:6px}
+  .tocbtn{width:38px;height:38px;top:12px;right:12px;font-size:17px}
+  .fsbtn{width:38px;height:38px;top:12px;right:58px;font-size:16px}
+  .toc{padding:56px 16px 20px}
+  .toc-title{font-size:16px}
+  .toc-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+  .toc-item{padding:12px 12px 10px;min-height:88px}
+  .toc-name{font-size:12.5px}
+  code{font-size:11.5px;padding:1px 6px}
+  .pill{font-size:11px;padding:4px 11px}
+}
 </style>
 </head>
 <body>
 <div class="deck">
 <div class="pbar"><div class="pfill" id="pf" style="width:4.76%"></div></div>
 <button class="tocbtn" onclick="openToc()" aria-label="목차"><i class="ti ti-layout-grid"></i></button>
+<button class="fsbtn" id="fsbtn" aria-label="전체화면"><i class="ti ti-maximize"></i></button>
 <button class="side-nav side-prev" id="sidePrev" onclick="go(-1)" aria-label="이전"><i class="ti ti-chevron-left"></i></button>
 <button class="side-nav side-next" id="sideNext" onclick="go(1)" aria-label="다음"><i class="ti ti-chevron-right"></i></button>
 
@@ -1253,6 +1324,45 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'||e.key==='ArrowDown')go(1);
   if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);
 });
+
+// 좌우 스와이프로 이동 (핀치줌 중엔 무시)
+(function(){
+  let sx=0, sy=0;
+  document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',e=>{
+    if(window.visualViewport && window.visualViewport.scale>1.02)return;
+    const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)) go(dx<0?1:-1);
+  },{passive:true});
+})();
+
+// 표를 가로 스크롤 가능하게 감싸기 (모바일 대응)
+document.querySelectorAll('table.cmp,table.cmp2').forEach(tb=>{
+  const wrap=document.createElement('div');
+  wrap.className='tablewrap';
+  tb.parentNode.insertBefore(wrap,tb);
+  wrap.appendChild(tb);
+});
+
+// 전체화면 버튼 (iOS Safari는 Fullscreen API 미지원 → 안내로 대체)
+(function(){
+  const btn=document.getElementById('fsbtn');
+  function isFs(){return !!(document.fullscreenElement||document.webkitFullscreenElement);}
+  function sync(){btn.innerHTML = isFs()?'<i class="ti ti-minimize"></i>':'<i class="ti ti-maximize"></i>';}
+  btn.addEventListener('click',()=>{
+    const d=document.documentElement;
+    if(!isFs()){
+      if(d.requestFullscreen)d.requestFullscreen();
+      else if(d.webkitRequestFullscreen)d.webkitRequestFullscreen();
+      else alert('이 브라우저는 전체화면을 지원하지 않아요.\n공유 → 홈 화면에 추가 후 실행하면 전체화면으로 볼 수 있어요.');
+    } else {
+      if(document.exitFullscreen)document.exitFullscreen();
+      else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
+    }
+  });
+  document.addEventListener('fullscreenchange',sync);
+  document.addEventListener('webkitfullscreenchange',sync);
+})();
 </script>
 </body>
 </html>
