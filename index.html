@@ -292,6 +292,32 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 .cmp2 .ico-n{color:#c0392b}
 .cmp2 .ico-m{color:var(--yellow)}
 
+/* ===== 2026 리뉴얼 디자인 ===== */
+.sl.on>*{animation:fi .55s cubic-bezier(.2,.7,.3,1) both}
+.sl.on>*:nth-child(1){animation-delay:.04s}
+.sl.on>*:nth-child(2){animation-delay:.1s}
+.sl.on>*:nth-child(3){animation-delay:.16s}
+.sl.on>*:nth-child(4){animation-delay:.22s}
+.sl.on>*:nth-child(5){animation-delay:.28s}
+.sl.on>*:nth-child(6){animation-delay:.34s}
+.sl.on>*:nth-child(7){animation-delay:.4s}
+
+.sl.cover{background:linear-gradient(160deg,#fdfaf7 0%,#fdf0ea 60%,#fce8f3 140%)}
+.cover-orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none;z-index:0;animation:none}
+.cover-orb.o1{width:460px;height:460px;background:#f6c6a4;top:-160px;right:-110px}
+.cover-orb.o2{width:320px;height:320px;background:#bfe5d8;bottom:-110px;left:-90px}
+.cover-orb.o3{width:240px;height:240px;background:#ddd6f5;top:38%;right:20%}
+.cover-badge{display:inline-flex;align-items:center;gap:7px;background:var(--white);border:1.5px solid #f0d6c5;color:var(--accent);font-size:13px;font-weight:700;padding:8px 18px;border-radius:24px;margin-bottom:24px;box-shadow:0 4px 16px rgba(225,107,56,.14);width:fit-content}
+.grad{background:linear-gradient(100deg,var(--accent) 20%,#c94f7c 90%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+.card{transition:transform .2s ease,box-shadow .2s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(26,26,26,.07)}
+.mini{transition:transform .2s ease,box-shadow .2s ease}
+.mini:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(26,26,26,.07)}
+
+.nb{display:inline-flex;align-items:center;font-size:10px;font-weight:800;letter-spacing:.07em;color:#fff;background:linear-gradient(100deg,#e16b38,#c94f7c);padding:3px 10px;border-radius:12px;margin-left:8px;vertical-align:3px;box-shadow:0 2px 8px rgba(225,107,56,.35)}
+.gift{display:flex;align-items:center;gap:9px;background:linear-gradient(100deg,#fdf0ea,#fce8f3);border:1.5px solid #f0d6c5;border-radius:10px;padding:12px 17px;font-size:14px;color:var(--gray700);margin-top:14px;line-height:1.6}
+
 /* ===== 모바일 최적화 ===== */
 @media(max-width:768px){
   .sl{padding:74px 16px 72px;overflow-y:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start}
@@ -348,24 +374,34 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
   .toc-name{font-size:12.5px}
   code{font-size:11.5px;padding:1px 6px}
   .pill{font-size:11px;padding:4px 11px}
+  .cover-orb.o1{width:260px;height:260px;top:-100px;right:-80px}
+  .cover-orb.o2{width:200px;height:200px;bottom:-70px;left:-70px}
+  .cover-orb.o3{display:none}
+  .cover-badge{font-size:11.5px;padding:6px 14px;margin-bottom:16px}
+  .nb{font-size:9px;padding:2px 8px;margin-left:5px;vertical-align:2px}
+  .gift{font-size:12px;padding:10px 13px}
 }
 </style>
 </head>
 <body>
 <div class="deck">
-<div class="pbar"><div class="pfill" id="pf" style="width:4.76%"></div></div>
+<div class="pbar"><div class="pfill" id="pf" style="width:3.13%"></div></div>
 <button class="tocbtn" onclick="openToc()" aria-label="목차"><i class="ti ti-layout-grid"></i></button>
 <button class="fsbtn" id="fsbtn" aria-label="전체화면"><i class="ti ti-maximize"></i></button>
 <button class="side-nav side-prev" id="sidePrev" onclick="go(-1)" aria-label="이전"><i class="ti ti-chevron-left"></i></button>
 <button class="side-nav side-next" id="sideNext" onclick="go(1)" aria-label="다음"><i class="ti ti-chevron-right"></i></button>
 
 <!-- 1 커버 -->
-<div class="sl on" id="s1">
+<div class="sl cover on" id="s1">
+  <div class="cover-orb o1"></div>
+  <div class="cover-orb o2"></div>
+  <div class="cover-orb o3"></div>
+  <div class="cover-badge"><i class="ti ti-sparkles"></i> 2026.07 최신 업데이트 반영 · 전면 리뉴얼</div>
   <div class="eyebrow">Claude Cowork × 현직 교사</div>
-  <div class="title">선생님의<br>Claude Cowork 활용</div>
-  <div class="sub">실제로 작동하는 것만 담았습니다.<br>프롬프트 그대로 복붙해서 바로 써보세요.</div>
+  <div class="title">선생님의<br><span class="grad">Claude Cowork</span> 활용</div>
+  <div class="sub">이제 PC를 넘어 웹·모바일·클라우드까지.<br>실제로 작동하는 것만 담았고, 프롬프트 그대로 복붙해서 바로 써보세요.</div>
   <div>
-    <span class="pill h">30개 슬라이드</span>
+    <span class="pill h">32개 슬라이드</span>
     <span class="pill">검증된 기능만</span>
     <span class="pill">프롬프트 포함</span>
     <span class="pill">생기부 · 지도안 · 체육</span>
@@ -395,8 +431,24 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
       <p class="cbody" style="margin:0">매일 아침, 매주 월요일처럼 정해진 시간에 같은 작업을 자동 반복할 수 있습니다.</p>
     </div>
   </div>
-  <div class="warn" style="margin-top:4px"><i class="ti ti-power" style="font-size:16px;margin-top:1px"></i><span><strong>꼭 기억하세요!</strong> Cowork는 <strong>내 컴퓨터가 켜져 있고 Claude Desktop이 실행 중일 때만</strong> 작동합니다. 예약 작업도 PC가 꺼져 있으면 그 시간엔 건너뜁니다.</span></div>
-  <div class="note" style="margin-top:8px">📌 Claude Desktop 앱의 별도 탭 &nbsp;·&nbsp; Pro 이상 유료 플랜 전용</div>
+  <div class="warn" style="margin-top:4px"><i class="ti ti-power" style="font-size:16px;margin-top:1px"></i><span><strong>기억하세요!</strong> 내 PC 파일을 다루는 <strong>로컬 작업</strong>은 컴퓨터가 켜져 있고 Claude Desktop이 실행 중일 때 작동합니다. 단, <strong>원격 세션(NEW·베타)</strong>을 쓰면 클라우드에서 실행돼 PC를 꺼도 계속됩니다 → 다음 장에서!</span></div>
+  <div class="note" style="margin-top:8px">📌 데스크톱 앱 · claude.ai 웹 · 모바일 앱에서 사용 가능 (웹·모바일은 Max 플랜부터 순차 확대 중) &nbsp;·&nbsp; Pro 이상 유료 플랜</div>
+</div>
+
+<!-- 2026.07 업데이트 개요 -->
+<div class="sl" id="s2b">
+  <span class="tag t-or">NEW · 2026.07 업데이트</span>
+  <div class="h2">Cowork, 이렇게 달라졌어요 <span class="nb">NEW</span></div>
+  <div class="sub" style="margin-bottom:18px">데스크톱 전용이던 Cowork가 <strong>웹·모바일·클라우드</strong>로 확장됐습니다 (7/7부터 순차 적용)</div>
+  <div class="g3" style="margin-bottom:12px">
+    <div class="mini"><div class="ico io"><i class="ti ti-devices"></i></div><strong>웹·모바일에서도</strong><p>claude.ai 웹과 폰 Claude 앱에서 Cowork 바로 사용</p></div>
+    <div class="mini"><div class="ico ig"><i class="ti ti-cloud-bolt"></i></div><strong>원격 세션 (베타)</strong><p>클라우드에서 실행·계정에 저장. 노트북 닫아도 작업 계속</p></div>
+    <div class="mini"><div class="ico ib"><i class="ti ti-clock-bolt"></i></div><strong>예약 작업 강화</strong><p>원격 세션 예약은 PC가 꺼져 있어도 정시 실행</p></div>
+    <div class="mini"><div class="ico ipk"><i class="ti ti-bell-ringing"></i></div><strong>폰 알림으로 승인</strong><p>권한이 필요하면 폰 알림 → 폰에서 바로 승인·계속 진행</p></div>
+    <div class="mini"><div class="ico ip"><i class="ti ti-layout-dashboard"></i></div><strong>챗·코워크 통합 홈</strong><p>프로젝트·아티팩트를 한곳에서 같이 관리</p></div>
+    <div class="mini"><div class="ico iye"><i class="ti ti-puzzle"></i></div><strong>플러그인 마켓플레이스</strong><p>스킬·커넥터 묶음을 클릭 몇 번으로 설치</p></div>
+  </div>
+  <div class="gift"><i class="ti ti-gift" style="font-size:17px;color:var(--accent)"></i><span>출시 기념으로 <strong>8월 5일까지 사용량 2배</strong> 이벤트가 진행 중이에요 — 지금이 써보기 좋은 시기!</span></div>
 </div>
 
 <!-- 3 비교 (예시 중심) -->
@@ -504,7 +556,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
       <div class="ec-ico"><i class="ti ti-bolt"></i></div>
       <h3>Claude Cowork</h3>
       <div class="ec-sub">업무 실행 AI · 일해주는 단계</div>
-      <div class="ec-desc">내 PC 파일을 직접 읽고·만들고, 여러 단계를 알아서 끝까지 처리.</div>
+      <div class="ec-desc">내 PC 파일을 직접 읽고·만들고, 여러 단계를 알아서 끝까지 처리. 이제 웹·모바일에서도.</div>
       <div class="ec-ex">⚡ "PAPS 엑셀 읽고 보고서 30개 만들어줘"</div>
     </div>
     <div class="evo-bigarrow"><i class="ti ti-arrow-big-right"></i></div>
@@ -536,8 +588,8 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
     <tbody>
       <tr><td>내 PC 파일</td><td><i class="ti ti-x ico-n"></i> 업로드 필요</td><td class="col-cowork"><i class="ti ti-check ico-y"></i> 직접 접근</td><td><i class="ti ti-check ico-y"></i> 직접 접근</td></tr>
       <tr><td>여러 단계 자동</td><td><i class="ti ti-x ico-n"></i> 단계마다 개입</td><td class="col-cowork"><i class="ti ti-check ico-y"></i> 알아서 처리</td><td><i class="ti ti-check ico-y"></i> 알아서 처리</td></tr>
-      <tr><td>예약 자동화</td><td><i class="ti ti-check ico-y"></i> 클라우드 루틴</td><td class="col-cowork"><i class="ti ti-check ico-y"></i> 예약 작업</td><td><i class="ti ti-check ico-y"></i> 루틴</td></tr>
-      <tr><td>작업 무대</td><td>웹·앱 안</td><td class="col-cowork"><strong>내 PC + 앱</strong></td><td>코드 저장소</td></tr>
+      <tr><td>예약 자동화</td><td><i class="ti ti-check ico-y"></i> 클라우드 루틴</td><td class="col-cowork"><i class="ti ti-check ico-y"></i> 예약 작업 + 원격 실행</td><td><i class="ti ti-check ico-y"></i> 루틴</td></tr>
+      <tr><td>작업 무대</td><td>웹·앱 안</td><td class="col-cowork"><strong>내 PC · 웹 · 모바일</strong></td><td>코드 저장소</td></tr>
       <tr><td>코딩 지식</td><td><i class="ti ti-check ico-y"></i> 필요 없음</td><td class="col-cowork"><i class="ti ti-check ico-y"></i> 필요 없음</td><td><i class="ti ti-minus ico-m"></i> 개발 지식 권장</td></tr>
       <tr><td>난이도</td><td>가장 쉬움</td><td class="col-cowork">쉬움</td><td>어려움</td></tr>
       <tr><td>추천 대상</td><td>누구나</td><td class="col-cowork"><strong>교사·직장인</strong></td><td>개발자</td></tr>
@@ -552,7 +604,11 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
     <span class="tag t-or">핵심 기능 01</span>
     <div class="h2">예약 작업<br>(Scheduled Tasks)</div>
     <div class="sub">한 번 설정하면 정해진 시간에 알아서 반복 실행</div>
-    <div class="warn"><i class="ti ti-alert-triangle" style="font-size:16px;margin-top:2px"></i><span>컴퓨터 켜져 있고 <strong>Claude Desktop 실행 중</strong>이어야만 동작.<br>꺼져 있으면 해당 회차는 건너뜁니다.</span></div>
+    <div class="warn"><i class="ti ti-alert-triangle" style="font-size:16px;margin-top:2px"></i><span><strong>로컬 세션 예약</strong>은 PC가 켜져 있고 Claude Desktop 실행 중이어야 동작합니다. 꺼져 있으면 해당 회차는 건너뜁니다.</span></div>
+    <div class="result" style="margin-top:10px">
+      <div class="result-label"><i class="ti ti-cloud-bolt"></i>NEW · 원격 세션 예약이라면</div>
+      <div class="result-body">클라우드에서 실행되므로 <strong>PC가 꺼져 있어도 정시에 실행</strong>됩니다 (베타 · Max 플랜부터 순차 확대) → 다음 장 참고</div>
+    </div>
   </div>
   <div class="split-r">
     <div class="steps">
@@ -563,10 +619,37 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
   </div>
 </div>
 
+<!-- 8b 원격 세션 & 모바일 -->
+<div class="sl split" id="s8b">
+  <div class="split-l">
+    <span class="tag t-or">핵심 기능 02 · NEW</span>
+    <div class="h2">원격 세션 &<br>모바일 Cowork</div>
+    <div class="sub">세션이 클라우드에서 돌아가니, 폰으로 시키고 노트북은 덮으세요</div>
+    <div class="flabel" style="margin-top:6px">이런 게 됩니다</div>
+    <ul class="prep">
+      <li><span class="pn">1</span>출근길에 폰으로 작업 지시 → 결과는 어디서든 확인</li>
+      <li><span class="pn">2</span>노트북을 닫아도 진행 중인 작업이 계속 실행</li>
+      <li><span class="pn">3</span>권한 승인이 필요하면 <strong>폰 알림</strong>으로 받아 바로 승인</li>
+    </ul>
+    <div class="warn"><i class="ti ti-folder-question" style="font-size:16px;margin-top:2px"></i><span><strong>내 PC 바탕화면 파일</strong>을 직접 다루는 작업은 여전히 <strong>데스크톱 로컬 세션</strong>에서! 원격 세션은 클라우드 파일 공간·커넥터 작업에 적합해요.</span></div>
+  </div>
+  <div class="split-r">
+    <div class="card">
+      <div class="ch"><div class="ico io"><i class="ti ti-device-mobile"></i></div><span class="ctitle">시작하는 법</span></div>
+      <div class="steps" style="margin-top:4px">
+        <div class="step"><span class="sn">1</span><div class="stxt">폰 Claude 앱 또는 <strong>claude.ai</strong> 접속 → Cowork 선택</div></div>
+        <div class="step"><span class="sn">2</span><div class="stxt">작업 지시 → 세션이 <strong>클라우드에서 실행·계정에 저장</strong></div></div>
+        <div class="step"><span class="sn">3</span><div class="stxt">다른 기기에서 열면 <strong>이어서 계속</strong> — 파일·대화 그대로</div></div>
+      </div>
+    </div>
+    <div class="note">📌 원격 세션은 베타 기능으로 <strong>Max 플랜부터 순차 확대 중</strong>입니다. 챗과 Cowork가 한 홈으로 합쳐져 프로젝트·아티팩트도 한곳에서 관리돼요.</div>
+  </div>
+</div>
+
 <!-- 8 스킬 -->
 <div class="sl split" id="s9">
   <div class="split-l">
-    <span class="tag t-gr">핵심 기능 02</span>
+    <span class="tag t-gr">핵심 기능 03</span>
     <div class="h2">스킬(Skills)<br>나만의 방식 저장</div>
     <div class="sub">반복 설명 없이 내 스타일로 자동 적용</div>
     <div class="card">
@@ -589,7 +672,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 
 <!-- 9 커넥터 개요 -->
 <div class="sl" id="s10">
-  <span class="tag t-bl">핵심 기능 03</span>
+  <span class="tag t-bl">핵심 기능 04</span>
   <div class="h2">커넥터 · 연동이란?</div>
   <div class="sub" style="margin-bottom:20px">Cowork에 외부 앱을 연결하면, 내 메일·일정·메신저까지 다룰 수 있어요</div>
   <div class="g2" style="margin-bottom:16px">
@@ -599,7 +682,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
     </div>
     <div class="card">
       <div class="ch"><div class="ico ip"><i class="ti ti-puzzle"></i></div><span class="ctitle">MCP 서버 (확장)</span></div>
-      <p class="cbody" style="margin:0">카카오톡 등 외부 연동. <strong>Extensions에서 설치</strong>하거나 설정 파일로 추가.</p>
+      <p class="cbody" style="margin:0">카카오톡 등 외부 연동. <strong>플러그인 마켓플레이스·Extensions에서 설치</strong>하거나 설정 파일로 추가.</p>
     </div>
   </div>
   <div class="g3">
@@ -664,7 +747,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
     <div class="sub">일정·관심사·시황을 한 번에 정리해 카톡 '나와의 채팅'으로</div>
     <div class="flabel" style="margin-top:6px">먼저 준비하세요</div>
     <ul class="prep">
-      <li><span class="pn">1</span>카카오 연동 MCP 등록 (8~10p 참고)</li>
+      <li><span class="pn">1</span>카카오 연동 MCP 등록 (12~14p 참고)</li>
       <li><span class="pn">2</span>구글 캘린더 커넥터 + 웹 검색 켜기</li>
       <li><span class="pn">3</span>아래 프롬프트 입력 후 <code>/schedule</code>로 매일 아침 예약</li>
     </ul>
@@ -698,7 +781,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
     <div class="sub">학사일정·시험일정을 하나하나 입력 말고 한 번에 자동 등록</div>
     <div class="flabel" style="margin-top:6px">먼저 준비하세요</div>
     <ul class="prep">
-      <li><span class="pn">1</span>Google Calendar 커넥터 연결 (9p 참고)</li>
+      <li><span class="pn">1</span>Google Calendar 커넥터 연결 (13p 참고)</li>
       <li><span class="pn">2</span>학사일정표 텍스트나 엑셀 파일 준비</li>
       <li><span class="pn">3</span>아래 프롬프트에 일정 붙여넣고 실행</li>
     </ul>
@@ -1183,7 +1266,7 @@ Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.doc
   <div style="max-width:700px">
     <span class="tag t-gr">마무리</span>
     <div class="title">업무 자동화,<br>이제 선생님<br>차례입니다</div>
-    <div class="sub">✅ 실제로 되는 것만 담았습니다<br>✅ 별도 파일 준비 없이 가진 파일 그대로 사용<br>✅ 프롬프트 그대로 복붙해서 지금 바로 써보세요</div>
+    <div class="sub">✅ 실제로 되는 것만 담았습니다<br>✅ 별도 파일 준비 없이 가진 파일 그대로 사용<br>✅ 프롬프트 그대로 복붙해서 지금 바로 써보세요<br>✅ 이제 폰에서도 — 원격 세션으로 어디서나</div>
     <div class="divider"></div>
     <p style="font-size:15px;color:var(--gray400)">by <strong style="color:var(--gray700)">@kimju.zip</strong> &nbsp;·&nbsp; 선생님을 위한 가장 쉬운 바이브코딩</p>
   </div>
@@ -1192,7 +1275,7 @@ Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.doc
 <!-- 목차 오버레이 -->
 <div class="toc" id="toc">
   <div class="toc-head">
-    <span class="toc-title">목차 · 전체 30장</span>
+    <span class="toc-title">목차 · 전체 32장</span>
     <button class="toc-close" onclick="closeToc()" aria-label="닫기"><i class="ti ti-x"></i></button>
   </div>
   <div class="toc-grid" id="tocGrid"></div>
@@ -1202,7 +1285,7 @@ Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.doc
 <div class="nav">
   <button class="nbtn" id="pb" onclick="go(-1)" disabled><i class="ti ti-arrow-left"></i> 이전</button>
   <div class="nav-c">
-    <span class="snum" id="ct">1 / 30</span>
+    <span class="snum" id="ct">1 / 32</span>
     <div class="dots" id="dn"></div>
   </div>
   <button class="nbtn" id="nb2" onclick="go(1)">다음 <i class="ti ti-arrow-right"></i></button>
@@ -1228,34 +1311,36 @@ function cp(btn){
 const tocData=[
   [1,"","표지"],
   [2,"개요","Claude Cowork란?"],
-  [3,"비교 ①","같은 일을 시켜보면?"],
-  [4,"비교 ②","무엇이 다른가?"],
-  [5,"비교 ③","언제 무엇을 쓸까?"],
-  [6,"한눈에 보기 ①","Claude 3형제 진화"],
-  [7,"한눈에 보기 ②","챗·코워크·코드 비교표"],
-  [8,"핵심 기능 01","예약 작업"],
-  [9,"핵심 기능 02","스킬(Skills)"],
-  [10,"핵심 기능 03","커넥터 연동이란?"],
-  [11,"연결 ①","Google 앱 연결"],
-  [12,"연결 ②","MCP·카카오톡 등록"],
-  [13,"꿀활용 01","매일 아침 모닝 브리핑"],
-  [14,"꿀활용 02","구글 캘린더 자동 등록"],
-  [15,"기본 활용 01","파일·폴더 자동 정리"],
-  [16,"기본 활용 02","영수증 → 엑셀 정리"],
-  [17,"생기부 01","관찰 메모 → 교과세특"],
-  [18,"생기부 02","창체 기록 변환"],
-  [19,"체육 01","PAPS 분석 보고서"],
-  [20,"체육 02","대회 기록 → 성적 증명"],
-  [21,"체육 03","수업 사진 월별 정리"],
-  [22,"수업 준비 01","수업 지도안 ①"],
-  [23,"수업 준비 02","수업 지도안 ②"],
-  [24,"학부모 01","상담 결과 보고서"],
-  [25,"학부모 02","주간 학급 안내문"],
-  [26,"평가 01","채점 → 학생별 피드백"],
-  [27,"평가 02","지필평가 문항 분석"],
-  [28,"교육 정보","교육 정보 자동 브리핑"],
-  [29,"콘텐츠","SNS 콘텐츠 자동화"],
-  [30,"마무리","이제 선생님 차례입니다"],
+  [3,"NEW · 2026.07","이렇게 달라졌어요"],
+  [4,"비교 ①","같은 일을 시켜보면?"],
+  [5,"비교 ②","무엇이 다른가?"],
+  [6,"비교 ③","언제 무엇을 쓸까?"],
+  [7,"한눈에 보기 ①","Claude 3형제 진화"],
+  [8,"한눈에 보기 ②","챗·코워크·코드 비교표"],
+  [9,"핵심 기능 01","예약 작업"],
+  [10,"핵심 기능 02 · NEW","원격 세션 & 모바일"],
+  [11,"핵심 기능 03","스킬(Skills)"],
+  [12,"핵심 기능 04","커넥터 연동이란?"],
+  [13,"연결 ①","Google 앱 연결"],
+  [14,"연결 ②","MCP·카카오톡 등록"],
+  [15,"꿀활용 01","매일 아침 모닝 브리핑"],
+  [16,"꿀활용 02","구글 캘린더 자동 등록"],
+  [17,"기본 활용 01","파일·폴더 자동 정리"],
+  [18,"기본 활용 02","영수증 → 엑셀 정리"],
+  [19,"생기부 01","관찰 메모 → 교과세특"],
+  [20,"생기부 02","창체 기록 변환"],
+  [21,"체육 01","PAPS 분석 보고서"],
+  [22,"체육 02","대회 기록 → 성적 증명"],
+  [23,"체육 03","수업 사진 월별 정리"],
+  [24,"수업 준비 01","수업 지도안 ①"],
+  [25,"수업 준비 02","수업 지도안 ②"],
+  [26,"학부모 01","상담 결과 보고서"],
+  [27,"학부모 02","주간 학급 안내문"],
+  [28,"평가 01","채점 → 학생별 피드백"],
+  [29,"평가 02","지필평가 문항 분석"],
+  [30,"교육 정보","교육 정보 자동 브리핑"],
+  [31,"콘텐츠","SNS 콘텐츠 자동화"],
+  [32,"마무리","이제 선생님 차례입니다"],
 ];
 const tocGrid=document.getElementById('tocGrid');
 tocData.forEach(([num,cat,name])=>{
@@ -1274,7 +1359,8 @@ function openToc(){
 }
 function closeToc(){document.getElementById('toc').classList.remove('show');}
 
-let c=1,t=30;
+const slides=Array.from(document.querySelectorAll('.sl'));
+let c=1,t=slides.length;
 const dn=document.getElementById('dn');
 for(let i=1;i<=t;i++){
   const d=document.createElement('span');d.id='d'+i;
@@ -1283,7 +1369,7 @@ for(let i=1;i<=t;i++){
 }
 // 초기 상태: 첫 슬라이드만 on, 나머지는 next(오른쪽 대기)
 for(let i=2;i<=t;i++){
-  document.getElementById('s'+i).classList.add('next');
+  slides[i-1].classList.add('next');
 }
 // 초기 좌우 화살표 상태 (1페이지: 이전 숨김)
 document.getElementById('sidePrev').disabled=true;
@@ -1292,7 +1378,7 @@ function gt(n){
   c=n;
   // 모든 슬라이드에 prev/on/next 상태 부여
   for(let i=1;i<=t;i++){
-    const sl=document.getElementById('s'+i);
+    const sl=slides[i-1];
     sl.classList.remove('prev','on','next');
     if(i===c) sl.classList.add('on');
     else if(i<c) sl.classList.add('prev');
