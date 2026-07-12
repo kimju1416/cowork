@@ -65,11 +65,18 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Noto Sans KR',sans-se
 }
 .nbtn:hover{background:var(--gray50);border-color:var(--gray400)}
 .nbtn:disabled{opacity:.25;cursor:default}
-.nav-c{display:flex;flex-direction:column;align-items:center;gap:7px}
-.snum{font-size:13px;color:var(--gray400);font-weight:500;letter-spacing:.04em}
-.dots{display:flex;gap:6px;flex-wrap:wrap;max-width:380px;justify-content:center}
-.dots span{width:7px;height:7px;border-radius:50%;background:var(--gray300);cursor:pointer;transition:all .2s}
-.dots span.on{background:var(--accent);transform:scale(1.3)}
+.nav-c{display:flex;flex-direction:column;align-items:center;gap:5px}
+.snum{font-size:12px;color:var(--gray400);font-weight:600;letter-spacing:.03em}
+
+/* 섹션 세그먼트 바 */
+.secbar{display:flex;gap:5px;width:min(600px,54vw)}
+.secseg{position:relative;flex-grow:1;flex-basis:0;height:24px;border-radius:7px;background:var(--gray100);border:1.5px solid var(--gray200);cursor:pointer;overflow:hidden;transition:border-color .2s}
+.secseg:hover{border-color:var(--gray400)}
+.secseg .sfill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent-light);transition:width .35s ease}
+.secseg .slab{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;height:100%;font-size:10.5px;font-weight:700;color:var(--gray400);white-space:nowrap;padding:0 8px;transition:color .2s}
+.secseg.cur{border-color:var(--accent)}
+.secseg.cur .slab{color:var(--accent)}
+.secseg.done .slab{color:var(--gray500)}
 
 /* 태그 */
 .tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:5px 14px;border-radius:6px;margin-bottom:18px;width:fit-content}
@@ -225,6 +232,10 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 }
 .toc-item:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
 .toc-item.current{border-color:var(--accent)}
+.toc-sec{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:16px 0 2px;font-size:12.5px;font-weight:800;color:#fff;letter-spacing:.05em}
+.toc-sec:first-child{margin-top:0}
+.toc-sec .ts-badge{background:var(--accent);border-radius:6px;padding:3px 10px;font-size:10.5px;letter-spacing:.03em}
+.toc-sec::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.18)}
 .toc-num{font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.05em;margin-bottom:6px}
 .toc-cat{font-size:10px;font-weight:600;color:var(--gray400);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
 .toc-name{font-size:14px;font-weight:600;color:var(--gray900);line-height:1.35}
@@ -318,6 +329,12 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
 .nb{display:inline-flex;align-items:center;font-size:10px;font-weight:800;letter-spacing:.07em;color:#fff;background:linear-gradient(100deg,#e16b38,#c94f7c);padding:3px 10px;border-radius:12px;margin-left:8px;vertical-align:3px;box-shadow:0 2px 8px rgba(225,107,56,.35)}
 .gift{display:flex;align-items:center;gap:9px;background:linear-gradient(100deg,#fdf0ea,#fce8f3);border:1.5px solid #f0d6c5;border-radius:10px;padding:12px 17px;font-size:14px;color:var(--gray700);margin-top:14px;line-height:1.6}
 
+/* 낮은 화면 높이(노트북) 안전장치: 슬라이드 세로 스크롤 허용 */
+@media(min-width:769px) and (max-height:720px){
+  .sl{overflow-y:auto;justify-content:flex-start;padding-top:60px;padding-bottom:80px}
+  .sl.split{align-items:flex-start}
+}
+
 /* ===== 모바일 최적화 ===== */
 @media(max-width:768px){
   .sl{padding:74px 16px 72px;overflow-y:auto;-webkit-overflow-scrolling:touch;justify-content:flex-start}
@@ -360,11 +377,13 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
   .mini p{font-size:11.5px}
   .flow{gap:6px;flex-wrap:wrap}
   .fnode{padding:6px 12px;font-size:12.5px}
-  .nav{padding:0 12px;height:52px}
-  .nbtn{padding:6px 11px;font-size:12px;gap:4px}
-  .snum{font-size:10.5px}
-  .dots{max-width:180px;gap:4px}
-  .dots span{width:6px;height:6px}
+  .nav{padding:0 10px;height:54px}
+  .nbtn{padding:6px 10px;font-size:12px;gap:4px}
+  .snum{font-size:10px}
+  .secbar{width:min(330px,52vw);gap:3px}
+  .secseg{height:17px;border-radius:5px;border-width:1px}
+  .secseg .slab{font-size:0;padding:0 3px}
+  .secseg.cur .slab{font-size:9px}
   .tocbtn{width:38px;height:38px;top:12px;right:12px;font-size:17px}
   .fsbtn{width:38px;height:38px;top:12px;right:58px;font-size:16px}
   .toc{padding:56px 16px 20px}
@@ -607,7 +626,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
     <div class="warn"><i class="ti ti-alert-triangle" style="font-size:16px;margin-top:2px"></i><span><strong>로컬 세션 예약</strong>은 PC가 켜져 있고 Claude Desktop 실행 중이어야 동작합니다. 꺼져 있으면 해당 회차는 건너뜁니다.</span></div>
     <div class="result" style="margin-top:10px">
       <div class="result-label"><i class="ti ti-cloud-bolt"></i>NEW · 원격 세션 예약이라면</div>
-      <div class="result-body">클라우드에서 실행되므로 <strong>PC가 꺼져 있어도 정시에 실행</strong>됩니다 (베타 · Max 플랜부터 순차 확대) → 다음 장 참고</div>
+      <div class="result-body">클라우드에서 실행되므로 <strong>PC가 꺼져 있어도 정시에 실행</strong>됩니다 (베타 · Max 플랜부터 순차 확대). 단, 내 PC 폴더·카카오톡 같은 <strong>로컬 연동을 쓰는 작업은 데스크톱 앱이 열려 있어야</strong> 해요 → 다음 장 참고</div>
     </div>
   </div>
   <div class="split-r">
@@ -631,7 +650,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
       <li><span class="pn">2</span>노트북을 닫아도 진행 중인 작업이 계속 실행</li>
       <li><span class="pn">3</span>권한 승인이 필요하면 <strong>폰 알림</strong>으로 받아 바로 승인</li>
     </ul>
-    <div class="warn"><i class="ti ti-folder-question" style="font-size:16px;margin-top:2px"></i><span><strong>내 PC 바탕화면 파일</strong>을 직접 다루는 작업은 여전히 <strong>데스크톱 로컬 세션</strong>에서! 원격 세션은 클라우드 파일 공간·커넥터 작업에 적합해요.</span></div>
+    <div class="warn"><i class="ti ti-folder-question" style="font-size:16px;margin-top:2px"></i><span>원격 세션도 <strong>내 PC의 연결한 폴더</strong>를 읽고 쓸 수 있어요 — 단, 그 컴퓨터에서 <strong>데스크톱 앱이 열려 있을 때만</strong>. 카카오톡 같은 로컬 MCP·라이브 아티팩트도 데스크톱 전용입니다.</span></div>
   </div>
   <div class="split-r">
     <div class="card">
@@ -752,6 +771,7 @@ code{font-family:var(--mono);font-size:13px;background:var(--gray100);padding:2p
       <li><span class="pn">3</span>아래 프롬프트 입력 후 <code>/schedule</code>로 매일 아침 예약</li>
     </ul>
     <div class="tip"><i class="ti ti-bulb" style="font-size:15px;margin-top:1px"></i><span>일정·스포츠·주식·날씨 등 원하는 항목을 자유롭게 넣고 빼면 돼요</span></div>
+    <div class="note" style="margin-top:8px">⚠️ 카카오 MCP는 로컬 연동이라 <strong>PC + 데스크톱 앱이 켜져 있어야</strong> 발송됩니다</div>
   </div>
   <div class="split-r">
     <div class="card">
@@ -1285,8 +1305,8 @@ Word 파일로 바탕화면에 저장. 파일명: 수행평가피드백_2반.doc
 <div class="nav">
   <button class="nbtn" id="pb" onclick="go(-1)" disabled><i class="ti ti-arrow-left"></i> 이전</button>
   <div class="nav-c">
+    <div class="secbar" id="secbar"></div>
     <span class="snum" id="ct">1 / 32</span>
-    <div class="dots" id="dn"></div>
   </div>
   <button class="nbtn" id="nb2" onclick="go(1)">다음 <i class="ti ti-arrow-right"></i></button>
 </div>
@@ -1342,8 +1362,27 @@ const tocData=[
   [31,"콘텐츠","SNS 콘텐츠 자동화"],
   [32,"마무리","이제 선생님 차례입니다"],
 ];
+// 섹션 구조 (하단 세그먼트 바 + 목차 그룹)
+const sections=[
+  {name:'시작',from:1,to:3},
+  {name:'비교',from:4,to:8},
+  {name:'핵심 기능',from:9,to:14},
+  {name:'기본 활용',from:15,to:18},
+  {name:'학생·수업',from:19,to:25},
+  {name:'소통·평가',from:26,to:31},
+  {name:'마무리',from:32,to:32},
+];
+function secOf(n){return sections.find(s=>n>=s.from&&n<=s.to);}
+
 const tocGrid=document.getElementById('tocGrid');
 tocData.forEach(([num,cat,name])=>{
+  const sec=secOf(num);
+  if(sec && sec.from===num){
+    const hd=document.createElement('div');
+    hd.className='toc-sec';
+    hd.innerHTML=`<span class="ts-badge">${sec.name}</span><span>${sec.from}–${sec.to}장</span>`;
+    tocGrid.appendChild(hd);
+  }
   const it=document.createElement('div');
   it.className='toc-item';it.id='toc'+num;
   it.onclick=()=>{gt(num);closeToc();};
@@ -1361,12 +1400,31 @@ function closeToc(){document.getElementById('toc').classList.remove('show');}
 
 const slides=Array.from(document.querySelectorAll('.sl'));
 let c=1,t=slides.length;
-const dn=document.getElementById('dn');
-for(let i=1;i<=t;i++){
-  const d=document.createElement('span');d.id='d'+i;
-  if(i===1)d.classList.add('on');
-  d.onclick=()=>gt(i);dn.appendChild(d);
+
+// 하단 섹션 세그먼트 바 생성
+const secbar=document.getElementById('secbar');
+sections.forEach(s=>{
+  const seg=document.createElement('div');
+  seg.className='secseg';
+  seg.style.flexGrow=(s.to-s.from+1);
+  seg.title=`${s.name} (${s.from}~${s.to}장)`;
+  seg.onclick=()=>gt(s.from);
+  seg.innerHTML='<div class="sfill"></div><div class="slab">'+s.name+'</div>';
+  secbar.appendChild(seg);
+  s.el=seg;
+});
+function updateSecbar(){
+  sections.forEach(s=>{
+    const fill=s.el.querySelector('.sfill');
+    s.el.classList.remove('cur','done');
+    if(c>s.to){s.el.classList.add('done');fill.style.width='100%';}
+    else if(c>=s.from){s.el.classList.add('cur');fill.style.width=((c-s.from+1)/(s.to-s.from+1)*100)+'%';}
+    else fill.style.width='0%';
+  });
+  document.getElementById('ct').textContent=secOf(c).name+' · '+c+' / '+t;
 }
+updateSecbar();
+
 // 초기 상태: 첫 슬라이드만 on, 나머지는 next(오른쪽 대기)
 for(let i=2;i<=t;i++){
   slides[i-1].classList.add('next');
@@ -1374,7 +1432,6 @@ for(let i=2;i<=t;i++){
 // 초기 좌우 화살표 상태 (1페이지: 이전 숨김)
 document.getElementById('sidePrev').disabled=true;
 function gt(n){
-  document.getElementById('d'+c).classList.remove('on');
   c=n;
   // 모든 슬라이드에 prev/on/next 상태 부여
   for(let i=1;i<=t;i++){
@@ -1384,8 +1441,7 @@ function gt(n){
     else if(i<c) sl.classList.add('prev');
     else sl.classList.add('next');
   }
-  document.getElementById('d'+c).classList.add('on');
-  document.getElementById('ct').textContent=c+' / '+t;
+  updateSecbar();
   document.getElementById('pf').style.width=(c/t*100)+'%';
   document.getElementById('pb').disabled=c===1;
   document.getElementById('nb2').disabled=c===t;
